@@ -11,10 +11,10 @@
 public class Juego {
 
     /**
-     * @param args the command line arguments
+     * Fecha de entrega 12 de junio del 2025
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        
     }
     
 }

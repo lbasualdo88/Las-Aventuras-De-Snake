@@ -6,7 +6,6 @@ public class Juego {
     static Scanner leer = new Scanner(System.in);
 
     public static void main(String[] args) {
-      
 
         iniciar();
     }
@@ -24,9 +23,11 @@ public class Juego {
             switch (opcion) {
                 case 1:
                     //inicia nueva partida
+                    nuevaPartida();
                     break;
                 case 2:
                     //continua partida guardada
+                    cargarPartida();
                     break;
                 case 3:
                     System.out.println("-------------------------------------");
@@ -43,5 +44,37 @@ public class Juego {
             }
         } while (salir);
 
+    }
+
+    public static void nuevaPartida() {
+        boolean volver = true;
+        do {
+            System.out.println("----------------MISION----------------");
+            System.out.println("1- Hangar de Entrada");
+            System.out.println("2- Almacén de Armas");
+            System.out.println("3- Hangar de Metal Gear(Batalla Final)");
+            System.out.println("4- Volver");
+            System.out.println("--------------------------------------");
+            int opcion = leer.nextInt();
+            switch (opcion) {
+                case 1:
+                    System.out.println("Desde Hangar de Entrada");
+                    break;
+                case 2:
+                    System.out.println("Desde Almacén de Armas");
+                    break;
+                case 3:
+                    System.out.println("Desde Batalla Final");
+                    break;
+                case 4:  
+                    volver = false;
+                    break;
+            }
+
+        } while (volver);
+    }
+
+    public static void cargarPartida() {
+        System.out.println("Desde metodo cargar partida");
     }
 }

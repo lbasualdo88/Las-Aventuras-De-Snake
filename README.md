@@ -1,6 +1,6 @@
- Las Aventuras de Snake 
+## Las Aventuras de Snake 
 
-Trabajo Práctico - Análisis de Sistemas  
+Trabajo Práctico - PBA  
 Tecnicatura Universitaria en Tecnologías de la Información – UTN
 
 ---

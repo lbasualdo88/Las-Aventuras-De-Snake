@@ -1,19 +1,17 @@
-# Las-Aventuras-De-Snake
-
-# Las Aventuras de Snake 🎮
+ Las Aventuras de Snake 
 
 Trabajo Práctico - Análisis de Sistemas  
 Tecnicatura Universitaria en Tecnologías de la Información – UTN
 
 ---
 
-## 🧠 Descripción
+## Descripción
 
 Este proyecto es una simulación por consola inspirada en el personaje *Snake*, donde el jugador debe completar 3 misiones en un mapa tipo matriz. El juego aplica principios de Programación Orientada a Objetos (POO), incluyendo herencia, interfaces, encapsulamiento y polimorfismo.
 
 ---
 
-## 🧩 Funcionalidades Implementadas
+## Funcionalidades Implementadas
 
 ✅ Menú principal interactivo  
 ✅ Movimiento de Snake (WSAD)  
@@ -24,7 +22,7 @@ Este proyecto es una simulación por consola inspirada en el personaje *Snake*, 
 
 ---
 
-## 🔄 En Desarrollo
+## En Desarrollo
 
 🛠️ Lógica de misiones (objetivos, recolección de ítems)  
 🛠️ Inventario de Snake  
@@ -34,7 +32,7 @@ Este proyecto es una simulación por consola inspirada en el personaje *Snake*, 
 
 ---
 
-## 🛠️ Organización del Equipo
+## Organización del Equipo
 
 - Repositorio compartido en GitHub para control de versiones.
 - Reuniones por Meet para coordinar tareas y tomar decisiones técnicas.
@@ -43,19 +41,19 @@ Este proyecto es una simulación por consola inspirada en el personaje *Snake*, 
 
 ---
 
-## 📌 Objetivo Académico
+## Objetivo Académico
 
 Este proyecto nos permite aplicar los conocimientos adquiridos sobre análisis de sistemas, modelado orientado a objetos y desarrollo de aplicaciones en consola.
 
 ---
 
-## 📬 Feedback
+## Feedback
 
 Nos gustaría recibir sugerencias u observaciones sobre cómo venimos trabajando, tanto en la implementación como en la organización general del grupo.
 
 ---
 
-## 👥 Integrantes
+## Integrantes
 
 - Leonardo Basualdo  
 - Sergio Balbi 

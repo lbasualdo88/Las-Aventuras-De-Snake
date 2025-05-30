@@ -5,13 +5,24 @@ import java.util.Random;
  * @author balbisergio
  */
 public class Mapa {
-    
-    /**Declaro  matriz bidimensional de objetos tipo Celda.*/
-    private Celda[][] matriz; /**valor no debe cambiar una vez asignado*/
-    private final int filas = 7;
-    private final int columnas = 7;
 
+    /** Matriz bidimensional de objetos tipo Celda */
+    private Celda[][] matriz;
+    private int filas;
+    private int columnas;
+
+    // Constructor por defecto: Misión 1 (7x7)
     public Mapa() {
+        this.filas = 7;
+        this.columnas = 7;
+        matriz = new Celda[filas][columnas];
+        inicializar();
+    }
+
+    // Constructor para Misión 2 (9x9) o dimensiones personalizadas
+    public Mapa(int filas, int columnas) {
+        this.filas = filas;
+        this.columnas = columnas;
         matriz = new Celda[filas][columnas];
         inicializar();
     }
@@ -23,8 +34,10 @@ public class Mapa {
             }
         }
 
-        // Ubicamos a Snake en la esquina inferior izquierda (posición [6][0])
-        matriz[6][0].setTipo('S');
+        // se valida si la posición [filas-1][0] existe (para Snake)
+        if (filas > 0 && columnas > 0) {
+            matriz[filas - 1][0].setTipo('S'); // Snake en esquina inferior izquierda
+        }
     }
 
     public void mostrarMapa() {
@@ -36,32 +49,30 @@ public class Mapa {
         }
     }
 
-    // luego se puede agregar métodos tales como:
-    // ubicarEnemigo(), validarMovimiento(), etc.
-    
     public void ubicarEnemigos(int cantidad) {
-    Random rand = new Random();
+        Random rand = new Random();
 
-    // Snake está en (6, 0)
-    int snakeFila = 6;
-    int snakeColumna = 0;
+        // Posición inicial de Snake
+        int snakeFila = filas - 1;
+        int snakeColumna = 0;
 
-    int colocados = 0;
-    while (colocados < cantidad) {
-        int fila = rand.nextInt(filas);
-        int columna = rand.nextInt(columnas);
+        int colocados = 0;
+        while (colocados < cantidad) {
+            int fila = rand.nextInt(filas);
+            int columna = rand.nextInt(columnas);
 
-        // Evitar la posición de Snake o demasiado cerca
-        int distancia = Math.abs(fila - snakeFila) + Math.abs(columna - snakeColumna);
-        boolean esZonaSegura = (distancia >= 2);
+            int distancia = Math.abs(fila - snakeFila) + Math.abs(columna - snakeColumna);
+            boolean esZonaSegura = (distancia >= 2);
 
-        if (!matriz[fila][columna].isOcupada() && esZonaSegura) {
-            matriz[fila][columna].setTipo('G');
-            colocados++;
+            if (!matriz[fila][columna].isOcupada() && esZonaSegura) {
+                matriz[fila][columna].setTipo('G');
+                colocados++;
+            }
         }
     }
-}
 
+    // Getter opcional x si necesitamos  acceder al mapa desde otras clases
+    public Celda[][] getMatriz() {
+        return matriz;
+    }
 }
-   
-

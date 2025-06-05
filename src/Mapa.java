@@ -7,8 +7,8 @@ import java.util.Random;
 public class Mapa {
 
     /** Matriz bidimensional de objetos tipo Celda */
-    private Celda[][] matriz;
-    private int filas, columnas;
+    private final Celda[][] matriz;
+    private final int filas, columnas;
 
     // Constructor por defecto: Misión 1 (7x7)
     public Mapa() {

@@ -42,15 +42,17 @@ public class PrimerMision {
             if (tipoCelda == 'L') {
                 tieneLlave = true;
                 mensaje = "Encontraste la llave para el hangar!";
+            } else if (tipoCelda == 'H') {
+                if (!tieneLlave) {
+                    sobreHangarSinLlave = true;
+                    mensaje = "Te falta la llave para entrar!";
+                } else {
+                    System.out.println("Llegaste al hangar. Misión completada!");
+                    mapa.mostrarMapa();
+                    break;
+                }
             }
-            if (tipoCelda == 'H' && !tieneLlave) {
-                sobreHangarSinLlave = true;
-                mensaje = "Te falta la llave para entrar!";
-            } else if (tipoCelda == 'H' && tieneLlave) {
-                System.out.println("Llegaste al hangar. Misión completada!");
-                mapa.mostrarMapa();
-                break;
-            }
+
             mapa.mostrarMapa();
             if (mensaje != null) {
                 System.out.println(mensaje);

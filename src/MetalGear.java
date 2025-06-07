@@ -11,7 +11,9 @@ public class MetalGear extends Personaje implements Enemigo {
     }
 
     @Override
-    public void mover() {
+    public char mover(Mapa mapa, String direccion) {
+        
+        return 'M';
     }
 
     public boolean ataque() {

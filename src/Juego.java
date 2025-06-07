@@ -3,11 +3,9 @@ import java.util.Scanner;
 
 public class Juego {
 
-
     public static void main(String[] args) {
         Scanner leer = new Scanner(System.in);
         iniciar(leer);
-        leer.close();
     }
 
     public static void iniciar(Scanner leer) {
@@ -58,7 +56,9 @@ public class Juego {
             int opcion = leer.nextInt();
             switch (opcion) {
                 case 1:
-                    PrimerMision.ejecutar(leer);
+                    PrimerMision mision = new PrimerMision(leer);
+                    mision.ejecutar(leer);
+                    
                     break;
                 case 2:
                     System.out.println("Desde Almacén de Armas");
@@ -67,7 +67,7 @@ public class Juego {
                     MisionFinal m3 = new MisionFinal();
                     m3.iniciarCombateFinal();
                     break;
-                case 4:  
+                case 4:
                     volver = false;
                     break;
             }

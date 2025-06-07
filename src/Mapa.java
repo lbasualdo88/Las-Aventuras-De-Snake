@@ -1,12 +1,14 @@
 
-
 import java.util.Random;
+
 /**
  * @author balbisergio
  */
 public class Mapa {
 
-    /** Matriz bidimensional de objetos tipo Celda */
+    /**
+     * Matriz bidimensional de objetos tipo Celda
+     */
     private final Celda[][] matriz;
     private final int filas, columnas;
 
@@ -43,21 +45,26 @@ public class Mapa {
         }
     }
 
-    public void ubicarEnemigos(int cantidad, Posicion snakePos) {
-        Random rand = new Random();
-
-        int snakeFila = snakePos.getY();
-        int snakeColumna = snakePos.getX();
-
+    public void ubicarEnemigos(int cantidad, Posicion snakePosicion, Posicion llavePosicion, Posicion hangarPosicion) {
+        Random random = new Random();
         int colocados = 0;
-        while (colocados < cantidad) {
-            int fila = rand.nextInt(filas);
-            int columna = rand.nextInt(columnas);
-            int distancia = Math.abs(fila - snakeFila) + Math.abs(columna - snakeColumna);
 
-            boolean esZonaSegura = (distancia >= 2);
-            if (!matriz[fila][columna].isOcupada() && esZonaSegura) {
-                matriz[fila][columna].setTipo('G');
+        while (colocados < cantidad) {
+            int x = random.nextInt(matriz[0].length);
+            int y = random.nextInt(matriz.length);
+            Posicion pos = new Posicion(x, y);
+
+            // Validaciones: no sobre Snake, ni adyacente a él
+            // ni sobre llave/hangar, ni adyacente a ellos
+            if (!pos.equals(snakePosicion)
+                    && !esAdyacente(pos, snakePosicion)
+                    && !pos.equals(llavePosicion)
+                    && !esAdyacente(pos, llavePosicion)
+                    && !pos.equals(hangarPosicion)
+                    && !esAdyacente(pos, hangarPosicion)
+                    && matriz[y][x].getTipo() == '.') {
+
+                matriz[y][x].setTipo('G');
                 colocados++;
             }
         }
@@ -77,40 +84,8 @@ public class Mapa {
         }
     }
 
-    public char moverSnake(Snake snake, String direccion) {
-        Posicion actual = snake.getPosicion();
-        int xActual = actual.getX();
-        int yActual = actual.getY();
-
-        Posicion destino = new Posicion(xActual, yActual);
-
-        switch (direccion) {
-            case "w" -> destino.moverArriba();
-            case "s" -> destino.moverAbajo();
-            case "a" -> destino.moverIzquierda();
-            case "d" -> destino.moverDerecha();
-            default -> {
-                System.out.println("Se debe usar una de las siguientes teclas: w/a/s/d");
-                return '.'; // no se mueve, devuelve '.' como tipo “sin cambio”
-            }
-        }
-        int xDestino = destino.getX();
-        int yDestino = destino.getY();
-        if (xDestino < 0 || xDestino >= columnas || yDestino < 0 || yDestino >= filas) {
-            System.out.println("Movimiento fuera del mapa. Quedas en la misma casilla.");
-            return '.';
-        }
-
-        char tipoAntiguo = matriz[yDestino][xDestino].getTipo();
-
-        matriz[yActual][xActual].setOcupada(false);
-
-        snake.getPosicion().setX(xDestino);
-        snake.getPosicion().setY(yDestino);
-
-        matriz[yDestino][xDestino].setTipo('S');
-
-        return tipoAntiguo;
+    public boolean posicionValida(int x, int y) {
+        return y >= 0 && y < matriz.length && x >= 0 && x < matriz[0].length;
     }
 
     public boolean hayGuardiaCerca(Posicion posicion) {
@@ -150,4 +125,17 @@ public class Mapa {
     public Celda[][] getMatriz() {
         return matriz;
     }
+
+    public boolean esAdyacente(Posicion p1, Posicion p2) {
+        if (p1 == null || p2 == null) {
+            return false;  // no son adyacentes si alguna posición es null
+        }
+        int dx = Math.abs(p1.getX() - p2.getX());
+        int dy = Math.abs(p1.getY() - p2.getY());
+
+        return (dx <= 1 && dy <= 1) && !(dx == 0 && dy == 0);
+    }
+
+    
+
 }

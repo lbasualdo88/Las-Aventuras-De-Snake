@@ -64,7 +64,8 @@ public class Juego {
                     System.out.println("Desde Almacén de Armas");
                     break;
                 case 3:
-                    System.out.println("Desde Batalla Final");
+                    MisionFinal m3 = new MisionFinal();
+                    m3.iniciarCombateFinal();
                     break;
                 case 4:  
                     volver = false;

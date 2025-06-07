@@ -7,6 +7,14 @@ public class Guardia extends Personaje implements Enemigo {
         super(posicion);
     }
 
+    public Guardia() {
+    }
+
+    @Override
+    public boolean combateRandom() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     
 
     @Override

@@ -3,14 +3,14 @@ import java.util.Scanner;
 
 public class Juego {
 
-    static Scanner leer = new Scanner(System.in);
 
     public static void main(String[] args) {
-
-        iniciar();
+        Scanner leer = new Scanner(System.in);
+        iniciar(leer);
+        leer.close();
     }
 
-    public static void iniciar() {
+    public static void iniciar(Scanner leer) {
         boolean salir = true;
 
         do {
@@ -23,7 +23,7 @@ public class Juego {
             switch (opcion) {
                 case 1:
                     //inicia nueva partida
-                    nuevaPartida();
+                    nuevaPartida(leer);
                     break;
                 case 2:
                     //continua partida guardada
@@ -46,7 +46,7 @@ public class Juego {
 
     }
 
-    public static void nuevaPartida() {
+    public static void nuevaPartida(Scanner leer) {
         boolean volver = true;
         do {
             System.out.println("----------------MISION----------------");
@@ -58,7 +58,7 @@ public class Juego {
             int opcion = leer.nextInt();
             switch (opcion) {
                 case 1:
-                    System.out.println("Desde Hangar de Entrada");
+                    PrimerMision.ejecutar(leer);
                     break;
                 case 2:
                     System.out.println("Desde Almacén de Armas");

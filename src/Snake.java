@@ -37,16 +37,33 @@ public class Snake extends Personaje {
     }
 
     @Override
-    public boolean combateRandom() {
-        return Math.random() < 0.5;  // 50% ataca, 50% esquiva
+       public boolean combateRandom() {
+        boolean eleccion = esquivar();
+        int movimiento = (int) (Math.random() * 2);  // 0 = ataca, 1 = esquiva
+        if (movimiento == 0) {
+            eleccion = ataque();
+        }
+        return eleccion;
     }
 
     public boolean combate() {
+        Scanner leer = new Scanner(System.in);
+        boolean eleccionUsuario = false;
         System.out.println("-Selecciona tu jugada-");
+        System.out.println("----------------------");
         System.out.println("1 - Atacar");
         System.out.println("2 - Esquivar");
+        System.out.println("----------------------");
         int opcion = leer.nextInt();
-        return opcion == 1;
+        switch (opcion) {
+            case 1:
+                eleccionUsuario = ataque();
+                break;
+            case 2:
+                eleccionUsuario = esquivar();
+                break;
+        }
+        return eleccionUsuario;
     }
 
     @Override

@@ -11,9 +11,7 @@ public class MetalGear extends Personaje implements Enemigo {
     }
 
     @Override
-    public char mover(Mapa mapa, String direccion) {
-        
-        return 'M';
+    public void mover(Mapa mapa, String direccion) {
     }
 
     public boolean ataque() {
@@ -37,6 +35,13 @@ public class MetalGear extends Personaje implements Enemigo {
         return tipoAtaque;
     }
 
+    @Override
+    public char getRepresentacion() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
+    
     @Override
     public boolean combateRandom() {
         boolean eleccion = esquivar();

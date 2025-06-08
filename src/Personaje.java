@@ -23,8 +23,10 @@ public abstract class Personaje {
         this.Vida += Vida;
     }
 
-    public abstract char mover(Mapa mapa, String direccion);
+    public abstract void mover(Mapa mapa, String direccion);
 
     public abstract boolean combateRandom();
+    
+    public abstract char getRepresentacion();
 
 }

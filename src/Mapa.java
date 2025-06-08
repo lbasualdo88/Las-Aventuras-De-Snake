@@ -1,9 +1,6 @@
 
 import java.util.Random;
 
-/**
- * @author balbisergio
- */
 public class Mapa {
 
     /**
@@ -39,7 +36,7 @@ public class Mapa {
     public void mostrarMapa() {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
-                System.out.print(matriz[i][j] + " ");
+                System.out.print(matriz[i][j].getRepresentacion() + " ");
             }
             System.out.println();
         }
@@ -62,23 +59,23 @@ public class Mapa {
                     && !esAdyacente(pos, llavePosicion)
                     && !pos.equals(hangarPosicion)
                     && !esAdyacente(pos, hangarPosicion)
-                    && matriz[y][x].getTipo() == '.') {
-
-                matriz[y][x].setTipo('G');
+                    && !matriz[y][x].estaOcupada()) {
+                Guardia guardia = new Guardia(pos);
+                matriz[y][x].setPersonaje(guardia);
                 colocados++;
             }
         }
     }
 
-    public Posicion establecerObjetivo(char tipo) {
+    public Posicion establecerObjetivo(Objeto objeto) {
         Random rand = new Random();
 
         while (true) {
             int fila = rand.nextInt(filas);
             int columna = rand.nextInt(columnas);
 
-            if (!matriz[fila][columna].isOcupada()) {
-                matriz[fila][columna].setTipo(tipo);
+            if (!matriz[fila][columna].estaOcupada()) {
+                matriz[fila][columna].setObjeto(objeto);
                 return new Posicion(columna, fila);
             }
         }
@@ -94,28 +91,34 @@ public class Mapa {
 
         // verificar celda arriba
         if (y - 1 >= 0) {
-            if (matriz[y - 1][x].getTipo() == 'G') {
+            Celda arriba = matriz[y - 1][x];
+            if (arriba.tienePersonaje() && arriba.getPersonaje() instanceof Guardia) {
                 return true;
             }
         }
 
         // verificar celda abajo
         if (y + 1 < filas) {
-            if (matriz[y + 1][x].getTipo() == 'G') {
+            Celda abajo = matriz[y + 1][x];
+            if (abajo.tienePersonaje() && abajo.getPersonaje() instanceof Guardia) {
                 return true;
             }
         }
 
         // verificar celda izquierda
         if (x - 1 >= 0) {
-            if (matriz[y][x - 1].getTipo() == 'G') {
+            Celda izquierda = matriz[y][x - 1];
+            if (izquierda.tienePersonaje() && izquierda.getPersonaje() instanceof Guardia) {
                 return true;
             }
         }
 
         // verificar celda derecha
         if (x + 1 < columnas) {
-            return matriz[y][x + 1].getTipo() == 'G';
+            Celda derecha = matriz[y][x + 1];
+            if (derecha.tienePersonaje() && derecha.getPersonaje() instanceof Guardia) {
+                return true;
+            }
         }
 
         return false;
@@ -136,6 +139,31 @@ public class Mapa {
         return (dx <= 1 && dy <= 1) && !(dx == 0 && dy == 0);
     }
 
-    
+    public void moverGuardias() {
+        Posicion[] posiciones = new Posicion[filas * columnas];
+        int cantidadGuardias = 0;
+
+        // Guardamos primero las posiciones de los guardias
+        for (int y = 0; y < filas; y++) {
+            for (int x = 0; x < columnas; x++) {
+                Celda celda = matriz[y][x];
+                if (celda.tienePersonaje() && celda.getPersonaje() instanceof Guardia) {
+                    posiciones[cantidadGuardias++] = new Posicion(x, y);
+                }
+            }
+        }
+
+        // Luego los movemos desde sus posiciones originales
+        for (int i = 0; i < cantidadGuardias; i++) {
+            Posicion pos = posiciones[i];
+            Celda celda = matriz[pos.getY()][pos.getX()];
+
+            if (celda.tienePersonaje() && celda.getPersonaje() instanceof Guardia) {
+                Guardia guardia = (Guardia) celda.getPersonaje();
+                guardia.mover(this, null);
+            }
+
+        }
+    }
 
 }

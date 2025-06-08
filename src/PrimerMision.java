@@ -13,13 +13,12 @@ public class PrimerMision {
         Mapa mapa = new Mapa();       // 7x7
         Snake snake = new Snake(new Posicion(0, 6));
         Posicion snakePosicion = snake.getPosicion();
-        //boolean tieneLlave = false;
-        boolean sobreHangarSinLlave = false;
+
         String mensaje = null;
 
-        mapa.getMatriz()[snakePosicion.getY()][snakePosicion.getX()].setTipo('S');
-        Posicion llavePos = mapa.establecerObjetivo('L');
-        Posicion hangar = mapa.establecerObjetivo('H');
+        mapa.getMatriz()[snakePosicion.getY()][snakePosicion.getX()].setPersonaje(snake);
+        Posicion llavePos = mapa.establecerObjetivo(new Tarjeta());
+        Posicion hangar = mapa.establecerObjetivo(new Puerta());
         mapa.ubicarEnemigos(4, snakePosicion, llavePos, hangar);
         mapa.mostrarMapa();
 
@@ -30,44 +29,56 @@ public class PrimerMision {
             System.out.println("---------------------------------");
             System.out.print("Mover (w:\u2191 - a:\u2190 - s:\u2193 - d:\u2192): ");
             String d = leer.next();
-            //System.out.println("---------------------------------");
-            char tipoCelda = snake.mover(mapa, d);
+
+            // Mover snake (void)
+            snake.mover(mapa, d);
             snakePosicion = snake.getPosicion();
 
-            if (sobreHangarSinLlave) {
-                mapa.getMatriz()[hangarY][hangarX].setTipo('H');
-                sobreHangarSinLlave = false;
+            // Obtener objeto en la nueva posición de Snake
+            Objeto obj = mapa.getMatriz()[snakePosicion.getY()][snakePosicion.getX()].getObjeto();
+
+            // Si Snake está en el hangar sin tarjeta, aseguramos que la puerta esté visible
+            if (snakePosicion.equals(hangar) && !snake.tieneTarjeta()) {
+                mapa.getMatriz()[hangarY][hangarX].setObjeto(new Puerta());
             }
 
-            if (mapa.hayGuardiaCerca(snakePosicion)) {
-                System.out.println(" ");
-                System.out.println("--------------------------------");
-                System.out.println("Fuiste capturado por un guardia!");
-                System.out.println("--------------------------------");
-                System.out.println(" ");
-                break;
-            }
-            if (tipoCelda == 'L') {
-                snake.recogerTarjeta(new Tarjeta());
+            if (obj instanceof Tarjeta) {
+                snake.recogerTarjeta((Tarjeta) obj);
                 mensaje = "Encontraste la llave para el hangar!";
-            } else if (tipoCelda == 'H') {
+                mapa.getMatriz()[snakePosicion.getY()][snakePosicion.getX()].removerObjeto();
+            } else if (obj instanceof Puerta) {
                 if (!snake.tieneTarjeta()) {
-                    sobreHangarSinLlave = true;
                     mensaje = "Te falta la llave para entrar!";
+                    mapa.getMatriz()[hangarY][hangarX].setObjeto(new Puerta());
                 } else {
                     System.out.println(" ");
                     System.out.println("--------------------------------------");
                     System.out.println("-Llegaste al hangar. Misión completada!-");
                     System.out.println("--------------------------------------");
                     System.out.println(" ");
-
                     break;
                 }
             }
+
             mapa.mostrarMapa();
+
+            mapa.moverGuardias();
+            System.out.println("----------------------------------------");
+            System.out.println("CUIDADO!- Los guardias te estan buscando");
+            System.out.println("----------------------------------------");
+            mapa.mostrarMapa();
+
+            if (mapa.hayGuardiaCerca(snakePosicion)) {
+                System.out.println(" ");
+                System.out.println("////////////////////////////////////");
+                System.out.println("//Fuiste capturado por un guardia!//");
+                System.out.println("////////////////////////////////////");
+                System.out.println(" ");
+                break;
+            }
+
             if (mensaje != null) {
                 System.out.println(" ");
-                System.out.println("------------------------------------");
                 System.out.println(mensaje);
                 System.out.println("------------------------------------");
                 System.out.println(" ");
@@ -75,4 +86,6 @@ public class PrimerMision {
             }
         }
     }
+
 }
+

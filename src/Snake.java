@@ -19,7 +19,7 @@ public class Snake extends Personaje {
     public void recogerTarjeta(Tarjeta t) {
         this.tarjeta = t;
     }
-    
+
     public Tarjeta getTarjeta() {
         return this.tarjeta;
     }
@@ -37,7 +37,7 @@ public class Snake extends Personaje {
     }
 
     @Override
-       public boolean combateRandom() {
+    public boolean combateRandom() {
         boolean eleccion = esquivar();
         int movimiento = (int) (Math.random() * 2);  // 0 = ataca, 1 = esquiva
         if (movimiento == 0) {
@@ -67,10 +67,7 @@ public class Snake extends Personaje {
     }
 
     @Override
-    public char mover(Mapa mapa, String direccion) {
-
-        System.out.println("---------------------------------");
-
+    public void mover(Mapa mapa, String direccion) {
         int x = posicion.getX();
         int y = posicion.getY();
         int nuevoX = x;
@@ -91,26 +88,28 @@ public class Snake extends Personaje {
                 break;
             default:
                 System.out.println("Tecla inválida.");
-                return mapa.getMatriz()[y][x].getTipo();  // sin moverse
+                return; // No mover
         }
 
-        // Verifica que no se salga del mapa
         if (!mapa.posicionValida(nuevoX, nuevoY)) {
             System.out.println("¡Movimiento fuera del mapa!");
-            return mapa.getMatriz()[y][x].getTipo();
+            return; // No mover
         }
 
-        // Obtener tipo de la celda destino antes de mover
-        char tipoDestino = mapa.getMatriz()[nuevoY][nuevoX].getTipo();
+        // Remover personaje de la celda actual
+        mapa.getMatriz()[y][x].removerPersonaje();
 
-        // Actualiza el mapa
-        mapa.getMatriz()[y][x].setTipo('.');  // limpia posición anterior
-        mapa.getMatriz()[nuevoY][nuevoX].setTipo('S');
+        // Agregar personaje en la nueva celda
+        mapa.getMatriz()[nuevoY][nuevoX].setPersonaje(this);
 
-        // Actualiza posición de Snake
+        // Actualizar posición
         this.posicion.setX(nuevoX);
         this.posicion.setY(nuevoY);
-
-        return tipoDestino;
     }
+
+    @Override
+    public char getRepresentacion() {
+        return 'S';
+    }
+
 }

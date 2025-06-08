@@ -1,39 +1,69 @@
 
-
-
 public class Celda {
 
-    private char tipo;  // 'S' = Snake, 'G' = Guardia, 'M' = MetalGear, 'H' = Hangar, '.' = vacío
-    private boolean ocupada;
+    private Personaje personaje;  // Snake o Guardia
+    private Objeto objeto;        // Tarjeta, Puerta, C4
 
     public Celda() {
-        this.tipo = '.';  // Por defecto, celda vacía
-        this.ocupada = false;
+        this.personaje = null;
+        this.objeto = null;
     }
 
-    public char getTipo() {
-        return tipo;
+    public boolean estaOcupada() {
+        return personaje != null || objeto != null;
     }
 
-    public void setTipo(char tipo) {
-        this.tipo = tipo;
-        this.ocupada = (tipo != '.'); // Si se asigna un tipo, se marca ocupada
+    public boolean tienePersonaje() {
+        return personaje != null;
     }
 
-    public boolean isOcupada() {
-        return ocupada;
+    public boolean tieneObjeto() {
+        return objeto != null;
     }
 
-    public void setOcupada(boolean ocupada) {
-        this.ocupada = ocupada;
-        if (!ocupada) {
-            this.tipo = '.';  // Si se desocupa, vuelve a tipo vacío
+    public Personaje getPersonaje() {
+        return personaje;
+    }
+
+    public void setPersonaje(Personaje personaje) {
+        this.personaje = personaje;
+    }
+
+    public void removerPersonaje() {
+        this.personaje = null;
+    }
+
+    public Objeto getObjeto() {
+        return objeto;
+    }
+
+    public void setObjeto(Objeto objeto) {
+        this.objeto = objeto;
+    }
+
+    public void removerObjeto() {
+        this.objeto = null;
+    }
+
+    public char getRepresentacion() {
+        if (personaje != null) {
+            if (personaje instanceof Snake) return 'S';
+            if (personaje instanceof Guardia) return 'G';
+            // Puedes agregar más si hay más personajes
         }
+
+        if (objeto != null) {
+            if (objeto instanceof Tarjeta) return 'L';
+            if (objeto instanceof Puerta) return 'H';
+            if (objeto instanceof C4) return 'C';
+        }
+
+        return '.'; // Celda vacía
     }
 
     @Override
     public String toString() {
-        return String.valueOf(tipo);
+        return String.valueOf(getRepresentacion());
     }
 }
 

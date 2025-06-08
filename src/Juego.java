@@ -58,14 +58,18 @@ public class Juego {
                 case 1:
                     PrimerMision mision = new PrimerMision(leer);
                     mision.ejecutar(leer);
-                    
                     break;
                 case 2:
-                    System.out.println("Desde Almacén de Armas");
+                    
+                        MisionIntermedia m2 = new MisionIntermedia(leer);
+                        m2.ejecutar(leer);
+                    
                     break;
                 case 3:
-                    MisionFinal m3 = new MisionFinal();
-                    m3.iniciarCombateFinal();
+                    
+                        MisionFinal m3 = new MisionFinal();
+                        m3.iniciarCombateFinal();
+                
                     break;
                 case 4:
                     volver = false;

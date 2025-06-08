@@ -1,52 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- * @author leo-h
- */
+// Clase que representa una posición en un plano cartesiano (2D)
 public class Posicion {
 
+    // Coordenadas x e y de la posición
     private int x, y;
 
+    // Constructor: permite crear una posición con valores específicos
     public Posicion(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
+    // Setter para modificar el valor de Y
     public void setY(int y) {
         this.y = y;
     }
 
+    // Setter para modificar el valor de X
     public void setX(int x) {
         this.x = x;
     }
 
+    // Getter para obtener el valor de X
     public int getX() {
         return x;
     }
 
+    // Getter para obtener el valor de Y
     public int getY() {
         return y;
     }
-
-    public void moverArriba() {
-        this.y--; // fila anterior
-    }
-
-    public void moverAbajo() {
-        this.y++; // fila siguiente
-    }
-
-    public void moverIzquierda() {
-        this.x--; // columna anterior
-    }
-
-    public void moverDerecha() {
-        this.x++; // columna siguiente
-    }
-
-
 }

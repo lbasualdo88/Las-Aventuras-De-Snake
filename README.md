@@ -19,7 +19,9 @@ Este proyecto es una simulación por consola inspirada en el personaje *Snake*, 
 ✅ Representación del mapa por consola  
 ✅ Estructura base de las misiones  
 ✅ Sistema de detección de proximidad y ocupación de celdas
-
+✅ Se incorpora batalla final contra Metal Gear
+✅ Se refactoriza la clase PrimeraMision para mejorar instanciaciòn y validaciòn de posiciones
+✅ Se aplican ajustes en la herencia y comportamiento de personajes enemigos
 ---
 
 ## En Desarrollo

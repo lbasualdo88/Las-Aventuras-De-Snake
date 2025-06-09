@@ -1,1 +1,21 @@
+# Ignora directorios de compilación
+out/
+build/
+target/
+
+# Ignora ficheros de clases
+*.class
+
+# IntelliJ IDEA
+/.idea/
+/*.iml
+
+# NetBeans
+/nbproject/
 /build/
+/dist/
+
+# Cachés y archivos temporales
+*.log
+*.tmp
+*.swp

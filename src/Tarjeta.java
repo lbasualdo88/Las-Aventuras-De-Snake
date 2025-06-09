@@ -5,5 +5,4 @@ public class Tarjeta extends Objeto{
     public String getTipo() {
          return "Tarjeta";
     }
-    
 }

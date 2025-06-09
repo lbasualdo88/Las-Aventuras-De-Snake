@@ -23,11 +23,6 @@ public class Celda {
         return personaje != null;
     }
 
-    // Devuelve true si hay un objeto en la celda
-    public boolean tieneObjeto() {
-        return objeto != null;
-    }
-
     // Devuelve el personaje actual de la celda (puede ser null)
     public Personaje getPersonaje() {
         return personaje;
@@ -59,7 +54,7 @@ public class Celda {
     }
 
     // Representa gráficamente lo que hay en la celda:
-    // S para Snake, G para Guardia, L para Tarjeta (llave), H para Puerta, C para C4, . si está vacía
+    // S para Snake, G para Guardia, L para Tarjeta (llave), H para Puerta/Hangar, C para C4, si está vacía
     public char getRepresentacion() {
         if (personaje != null) {
             if (personaje instanceof Snake) return 'S';

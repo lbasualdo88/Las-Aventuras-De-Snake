@@ -1,11 +1,7 @@
-
-public class C4 extends Objeto{
+public class C4 extends Objeto {
 
     @Override
     public String getTipo() {
-       return "C4";
+        return "C4";
     }
-    
-    
-    
 }

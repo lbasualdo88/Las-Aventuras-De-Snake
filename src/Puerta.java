@@ -5,5 +5,4 @@ public class Puerta extends Objeto{
     public String getTipo() {
         return "Puerta";
     }
-    
 }

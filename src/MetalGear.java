@@ -6,14 +6,8 @@ public class MetalGear extends Personaje implements Enemigo {
         super(posicion);
     }
 
-    // Constructor vacío
-    public MetalGear() {
-    }
-
-    // Método para mover a Rex (No se usa)
     @Override
-    public void mover(Mapa mapa) {
-        
+    public void mover(Mapa mapa, String direccion) {
     }
 
     // Método que representa el ataque de Rex.
@@ -28,37 +22,34 @@ public class MetalGear extends Personaje implements Enemigo {
 
     // Método que determina el tipo de ataque aleatoriamente
     public int tipoDeAtaque() {
-        
-        int tipoAtaque = (int) (Math.random() * 2);
-
-        if (tipoAtaque == 0) {
+        boolean esMisil = Math.random() < 0.5;
+        if (esMisil) {
             System.out.println("Rex lanza misil");
-            tipoAtaque = -40;  // El misil causa 40 puntos de daño
+            return -40;
         } else {
             System.out.println("Rex dispara láser");
-            tipoAtaque = -15;  // El láser causa 15 puntos de daño
+            return -15;
         }
-
-        return tipoAtaque;
     }
 
     // Método que devuelve el carácter que representa a Rex en el mapa (No se usa)
     @Override
     public char getRepresentacion() {
-        return 'R';     
+        return 'R';
+    }
+
+    @Override
+    public void atacar(Personaje objetivo) {
+        int dano = tipoDeAtaque();
+        objetivo.recibirGolpe(dano);
+        System.out.printf("MetalGear hizo %d de daño a %s%n",
+                dano, objetivo.getClass().getSimpleName());
     }
 
     // Método que define el comportamiento aleatorio de combate
     @Override
     public boolean combateRandom() {
-        boolean eleccion = esquivar();  
-        
-        // Genera aleatoriamente una acción: 0 = ataca, 1 = esquiva
-        int movimiento = (int) (Math.random() * 2);
-        if (movimiento == 0) {
-            eleccion = ataque();  
-        }
-
-        return eleccion;  
+        // 50% de probabilidad de atacar
+        return Math.random() < 0.5;
     }
 }

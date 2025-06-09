@@ -8,11 +8,6 @@ public class Guardia extends Personaje implements Enemigo {
         super(posicion);
     }
 
-    // Constructor vacío (puede usarse para inicializar después)
-    public Guardia() {
-    }
-
-    // Método para combate aleatorio (no está implementado todavía)
     @Override
     public boolean combateRandom() {
         throw new UnsupportedOperationException("Método no implementado.");
@@ -20,15 +15,15 @@ public class Guardia extends Personaje implements Enemigo {
 
     // Método que permite al guardia moverse en el mapa de forma aleatoria
     @Override
-    public void mover(Mapa mapa) {
-        Random rand = new Random();  
+    public void mover(Mapa mapa, String direccion) {
+        Random rand = new Random();
 
         // Posibles direcciones de movimiento (arriba, abajo, izquierda, derecha)
         int[][] direcciones = {
-            {0, -1},  // arriba
-            {0, 1},   // abajo
-            {-1, 0},  // izquierda
-            {1, 0}    // derecha
+                {0, -1}, // arriba
+                {0, 1}, // abajo
+                {-1, 0}, // izquierda
+                {1, 0} // derecha
         };
 
         // Obtiene la posición actual del guardia
@@ -68,21 +63,24 @@ public class Guardia extends Personaje implements Enemigo {
                 continue;
             }
 
-            // Si pasó todas las condiciones, realiza el movimiento:
-            // 1. Quita al guardia de su celda actual
+            // Quita al guardia de su celda actual
             mapa.getMatriz()[yActual][xActual].removerPersonaje();
 
-            // 2. Actualiza su posición interna
+            // Actualiza su posición interna
             this.posicion.setX(nuevoX);
             this.posicion.setY(nuevoY);
 
-            // 3. Lo coloca en la nueva celda
+            // Lo coloca en la nueva celda
             mapa.getMatriz()[nuevoY][nuevoX].setPersonaje(this);
-            break;  
+            break;
         }
     }
 
-    // Método auxiliar: busca en el mapa una celda con un carácter específico (por ejemplo 'H' o 'L')
+    @Override
+    public void atacar(Personaje objetivo) {
+    }
+
+    // Método auxiliar: busca en el mapa una celda con un carácter específico
     private Posicion encontrarPosicion(Mapa mapa, char tipo) {
         Celda[][] celdas = mapa.getMatriz();
         for (int y = 0; y < celdas.length; y++) {
@@ -92,7 +90,7 @@ public class Guardia extends Personaje implements Enemigo {
                 }
             }
         }
-        return null; 
+        return null;
     }
 
     // Devuelve el carácter que representa al guardia en el mapa

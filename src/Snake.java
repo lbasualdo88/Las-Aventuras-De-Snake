@@ -4,21 +4,15 @@ import java.util.Scanner;
 // Clase que representa al personaje Snake, hereda de Personaje
 public class Snake extends Personaje {
 
-    private Scanner leer;      // Para leer entrada del usuario
+    private final Scanner sc = new Scanner(System.in);      // Para leer entrada del usuario
     private Tarjeta tarjeta;  // Tarjeta que puede recoger el personaje
     private C4 bomba;  // C4 que puede recoger el personaje
 
     // Constructor con posición inicial
-    public Snake(Posicion posicion) {
-        super(posicion);
-        this.leer = new Scanner(System.in);
+    public Snake(Posicion p) {
+        super(p);
         this.tarjeta = null;
         this.bomba = null;
-    }
-
-    // Constructor sin posición inicial
-    public Snake() {
-        this.leer = new Scanner(System.in);
     }
 
     // Guarda una tarjeta que el personaje ha recogido
@@ -64,14 +58,11 @@ public class Snake extends Personaje {
     // Combate aleatorio: elige aleatoriamente entre atacar y esquivar
     @Override
     public boolean combateRandom() {
-        boolean eleccion = esquivar(); // Por defecto esquiva (false)
-        int movimiento = (int) (Math.random() * 2);  // Genera 0 o 1 aleatoriamente
-
+        boolean eleccion = esquivar();
+        int movimiento = (int) (Math.random() * 2);  // 0 = ataca, 1 = esquiva
         if (movimiento == 0) {
-            // Si el número aleatorio es 0, ataca
             eleccion = ataque();
         }
-        // Devuelve la elección aleatoria (true si ataca, false si esquiva)
         return eleccion;
     }
 
@@ -79,8 +70,6 @@ public class Snake extends Personaje {
     public boolean combate() {
         Scanner leer = new Scanner(System.in);
         boolean eleccionUsuario = false;
-
-        // Muestra las opciones al usuario
         System.out.println("-Selecciona tu jugada-");
         System.out.println("----------------------");
         System.out.println("1 - Atacar");
@@ -91,33 +80,23 @@ public class Snake extends Personaje {
 
         switch (opcion) {
             case 1:
-                // Usuario elige atacar
                 eleccionUsuario = ataque();
                 break;
             case 2:
-                // Usuario elige esquivar
                 eleccionUsuario = esquivar();
                 break;
         }
-
-        // Devuelve la elección del usuario
         return eleccionUsuario;
     }
 
     // Método que permite mover a Snake en el mapa
     @Override
-    public void mover(Mapa mapa) {
-        int x = posicion.getX();     // Posición actual en X
-        int y = posicion.getY();     // Posición actual en Y
-        int nuevoX = x;              // Nueva posición tentativa en X
-        int nuevoY = y;              // Nueva posición tentativa en Y
+    public void mover(Mapa mapa, String direccion) {
+        int x = posicion.getX();
+        int y = posicion.getY();
+        int nuevoX = x;
+        int nuevoY = y;
 
-        // Solicita dirección al usuario
-        System.out.println("---------------------------------");
-        System.out.print("Mover (w:↑ - a:← - s:↓ - d:→): ");
-        String direccion = leer.next();
-
-        // Actualiza coordenadas según la dirección ingresada
         switch (direccion) {
             case "w":
                 nuevoY--;
@@ -132,7 +111,6 @@ public class Snake extends Personaje {
                 nuevoX++;
                 break;
             default:
-                // Entrada inválida, no se mueve
                 System.out.println("Tecla inválida.");
                 return;
         }
@@ -140,7 +118,7 @@ public class Snake extends Personaje {
         // Verifica si la nueva posición está dentro de los límites del mapa
         if (!mapa.posicionValida(nuevoX, nuevoY)) {
             System.out.println("¡Movimiento fuera del mapa!");
-            return; // No se actualiza la posición
+            return;
         }
 
         // Remueve el personaje de la celda actual
@@ -159,5 +137,4 @@ public class Snake extends Personaje {
     public char getRepresentacion() {
         return 'S';
     }
-
 }

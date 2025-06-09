@@ -1,7 +1,6 @@
-// Clase abstracta que representa un personaje en el juego
 public abstract class Personaje {
+// Clase abstracta que representa un personaje en el juego
 
-    // Cada personaje tiene una posición en el mapa
     public Posicion posicion;
 
     // Todos los personajes empiezan con 100 puntos de vida
@@ -26,17 +25,23 @@ public abstract class Personaje {
         return Vida;
     }
 
-    // Método para modificar la vida del personaje. 
+    // Método para modificar la vida del personaje.
     public void setVida(int Vida) {
         this.Vida += Vida;
     }
 
     // Método abstracto que define cómo se mueve un personaje en el mapa
-    public abstract void mover(Mapa mapa);
+    public abstract void mover(Mapa mapa, String direccion);
 
     // Método abstracto para decidir aleatoriamente si el personaje ataca o esquiva
     public abstract boolean combateRandom();
     
     // Método abstracto que devuelve un carácter para representar al personaje en el mapa
     public abstract char getRepresentacion();
+
+    public void recibirGolpe(int golpe) {
+        Vida = Math.max(0, Vida - golpe);
+    }
+
+    public boolean estaVivo() { return Vida > 0; }
 }

@@ -4,40 +4,34 @@ public class Mapa {
 
     // Matriz bidimensional que representa el mapa compuesto por celdas
     private final Celda[][] matriz;
+    private final int filas, columnas;
 
-    // Cantidad de filas del mapa
-    private final int filas;
-
-    // Cantidad de columnas del mapa
-    private final int columnas;
-
-    // Constructor por defecto (misión 1), crea un mapa de 7x7
+    // Constructor por defecto: Misión 1 (7x7)
     public Mapa() {
         this.filas = 7;
         this.columnas = 7;
         matriz = new Celda[filas][columnas];
-        inicializar(); // Inicializa todas las celdas
+        inicializar();
     }
 
-    // Constructor personalizado 
+    // Constructor para Misión 2 (9x9) o dimensiones personalizadas
     public Mapa(int filas, int columnas) {
         this.filas = filas;
         this.columnas = columnas;
         matriz = new Celda[filas][columnas];
-        inicializar(); // Inicializa todas las celdas
+        inicializar();
     }
 
     // Inicializa la matriz del mapa asignando una nueva celda vacía a cada posición
     private void inicializar() {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
-                matriz[i][j] = new Celda(); // Cada celda inicia sin personaje ni objeto
+                matriz[i][j] = new Celda(); // Cada celda empieza vacía
             }
         }
     }
 
-    // Muestra el mapa en la consola
-    public void mostrarMapa() {
+    public void mostrar() {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
                 System.out.print(matriz[i][j].getRepresentacion() + " "); // Muestra el símbolo de cada celda
@@ -46,15 +40,21 @@ public class Mapa {
         }
     }
 
+    public void colocarPersonaje(Personaje p) {
+        Posicion pos = p.getPosicion();
+        int x = pos.getX(), y = pos.getY();
+        matriz[y][x].setPersonaje(p);
+    }
+
     // Ubica enemigos (guardias) aleatoriamente, evitando zonas sensibles
     public void ubicarEnemigos(int cantidad, Posicion snakePosicion, Posicion llavePosicion, Posicion hangarPosicion) {
         Random random = new Random();
         int colocados = 0;
 
         while (colocados < cantidad) {
-            int x = random.nextInt(matriz[0].length); // columna aleatoria
-            int y = random.nextInt(matriz.length);    // fila aleatoria
-            Posicion pos = new Posicion(x, y);        // nueva posición candidata
+            int x = random.nextInt(matriz[0].length);
+            int y = random.nextInt(matriz.length);
+            Posicion pos = new Posicion(x, y);
 
             // Verifica que la celda no sea una zona prohibida o cercana a Snake, llave u objetivo
             if (!pos.equals(snakePosicion)
@@ -64,10 +64,9 @@ public class Mapa {
                     && !pos.equals(hangarPosicion)
                     && !esAdyacente(pos, hangarPosicion)
                     && !matriz[y][x].estaOcupada()) {
-
-                Guardia guardia = new Guardia(pos);           // Crea nuevo guardia
-                matriz[y][x].setPersonaje(guardia);           // Lo coloca en la celda
-                colocados++;                                  // Aumenta el contador
+                Guardia guardia = new Guardia(pos);
+                matriz[y][x].setPersonaje(guardia);
+                colocados++;
             }
         }
     }
@@ -129,8 +128,7 @@ public class Mapa {
                 return true;
             }
         }
-
-        return false; // No encontró ningún guardia alrededor
+        return false;
     }
 
     // Retorna la matriz completa de celdas del mapa
@@ -141,7 +139,7 @@ public class Mapa {
     // Determina si dos posiciones están adyacentes, es decir, una al lado de la otra
     public boolean esAdyacente(Posicion p1, Posicion p2) {
         if (p1 == null || p2 == null) {
-            return false;
+            return false;  // no son adyacentes si alguna posición es null
         }
 
         int dx = Math.abs(p1.getX() - p2.getX()); // Diferencia en columnas
@@ -173,9 +171,8 @@ public class Mapa {
             Celda celda = matriz[pos.getY()][pos.getX()];
 
             // Confirma que sigue habiendo un guardia en esa posición (no se movió aún)
-            if (celda.tienePersonaje() && celda.getPersonaje() instanceof Guardia) {
-                Guardia guardia = (Guardia) celda.getPersonaje();
-                guardia.mover(this); // Llama al método mover() del guardia, pasando el mapa
+            if (celda.tienePersonaje() && celda.getPersonaje() instanceof Guardia guardia) {
+                guardia.mover(this, null);
             }
         }
     }

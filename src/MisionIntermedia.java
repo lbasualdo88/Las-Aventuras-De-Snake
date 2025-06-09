@@ -1,121 +1,161 @@
-
 import java.util.Scanner;
 
-// Clase que representa la segunda misión del juego
 public class MisionIntermedia extends Mision {
+    private final int numero; // 1 = Hangar de Entrada, 2 = Almacén de Armas
 
-    // Scanner para leer desde consola
-    private Scanner leer;
-
-    // Constructor que recibe el Scanner como parámetro
-    public MisionIntermedia(Scanner leer) {
-        this.leer = leer;
+    public MisionIntermedia(int numero, Mapa mapa, Snake snake, Scanner sc) {
+        super(mapa, snake, sc);
+        this.numero = numero;
     }
 
-    // Método que ejecuta la segunda misión
-    public void ejecutar(Scanner leer) {
+    @Override
+    public void iniciar() {
+        mapa.colocarPersonaje(snake);
 
-        // Crea el mapa (de tamaño 9x9)
-        Mapa mapa = new Mapa(9, 9);
+        if (numero == 1) {
+            Tarjeta tarjeta = new Tarjeta();
+            Puerta puerta = new Puerta();
+            Posicion llavePos = mapa.establecerObjetivo(tarjeta);
+            Posicion hangarPos = mapa.establecerObjetivo(puerta);
 
-        // Crea el personaje Snake, comenzando en la esquina inferior izquierda
-        Snake snake = new Snake(new Posicion(8, 0));
-        Posicion snakePosicion = snake.getPosicion();
+            mapa.ubicarEnemigos(4, snake.getPosicion(), llavePos, hangarPos);
+            mapa.mostrar();
 
-        // Variable para mostrar mensajes de eventos (como encontrar una tarjeta)
-        String mensaje = null;
+            boolean sobreHangar = false;
+            String mensaje = null;
 
-        // Coloca a Snake en su posición inicial dentro de la matriz del mapa
-        mapa.getMatriz()[snakePosicion.getY()][snakePosicion.getX()].setPersonaje(snake);
+            int hangarX = hangarPos.getX();
+            int hangarY = hangarPos.getY();
 
-        // Establece la posición de C4 (bomba) y devuelve su posición
-        Posicion c4Pos = mapa.establecerObjetivo(new C4());
+            while (true) {
+                System.out.println("---------------------------------");
+                System.out.print("Mover (w:↑ - a:← - s:↓ - d:→): ");
+                String d = sc.next();
 
-        // Establece la posición de la puerta (hangar) y guarda su posición
-        Posicion hangar = mapa.establecerObjetivo(new Puerta());
+                snake.mover(mapa, d);
+                Posicion pos = snake.getPosicion();
 
-        // Coloca 4 guardias en el mapa, evitando posiciones clave
-        mapa.ubicarEnemigos(4, snakePosicion, c4Pos, hangar);
-
-        // Muestra el mapa inicial
-        mapa.mostrarMapa();
-
-        // Guarda coordenadas del hangar para referencia posterior
-        int hangarX = hangar.getX();
-        int hangarY = hangar.getY();
-
-        // Bucle principal del juego
-        while (true) {
-
-            // Snake realiza su movimiento
-            snake.mover(mapa);
-            snakePosicion = snake.getPosicion();
-
-            // Obtiene el objeto actual donde está Snake
-            Objeto obj = mapa.getMatriz()[snakePosicion.getY()][snakePosicion.getX()].getObjeto();
-
-            // Si está en la puerta pero no tiene la bomba
-            if (snakePosicion.equals(hangar) && !snake.tieneBomba()) {
-                mapa.getMatriz()[hangarY][hangarX].setObjeto(new Puerta());
-            }
-
-            // Si encuentra la bomba
-            if (obj instanceof C4) {
-                snake.recogerBomba((C4) obj);  // Snake recoge la bomba
-                mensaje = "Encontraste la bomba para abrir el hangar!";
-                mapa.getMatriz()[snakePosicion.getY()][snakePosicion.getX()].removerObjeto(); // Se remueve del mapa
-                
-              // Si encuentra la puerta  
-            } else if (obj instanceof Puerta) {
-
-                // Si no tiene bomba, no puede avanzar
-                if (!snake.tieneBomba()) {
-                    mensaje = "Te falta la bomba para entrar!";
+                // si el usuario pasa sin la llave por el hangar, seteo el hangar para que no se borre
+                if (sobreHangar) {
                     mapa.getMatriz()[hangarY][hangarX].setObjeto(new Puerta());
+                    sobreHangar = false;
+                }
 
-                // Si tiene la bomba, gana el juego
-                } else {
-                    System.out.println(" ");
-                    System.out.println("--------------------------------------");
-                    System.out.println("-Llegaste al hangar. Misión completada!-");
-                    System.out.println("--------------------------------------");
-                    System.out.println(" ");
-                    break; // Fin del juego
+                // get del objeto de la celda
+                Objeto obj = mapa.getMatriz()[pos.getY()][pos.getX()].getObjeto();
+
+                if (obj instanceof Tarjeta) {
+                    snake.recogerTarjeta((Tarjeta) obj);
+                    mensaje = "Encontraste la llave para el hangar!";
+                    mapa.getMatriz()[pos.getY()][pos.getX()].removerObjeto();
+                } else if (obj instanceof Puerta) {
+                    if (!snake.tieneTarjeta()) {
+                        mensaje = "Te falta la llave para entrar!";
+                        mapa.getMatriz()[hangarY][hangarX].setObjeto(new Puerta());
+                        sobreHangar = true;
+                    } else {
+                        System.out.println();
+                        System.out.println("--------------------------------------");
+                        System.out.println("- Llegaste al hangar. Misión completada! -");
+                        System.out.println("--------------------------------------");
+                        System.out.println();
+                        break;
+                    }
+                }
+                mapa.mostrar();
+                mapa.moverGuardias();
+
+                System.out.println("----------------------------------------");
+                System.out.println("CUIDADO: ¡Los guardias se están moviendo!");
+                System.out.println("----------------------------------------");
+                mapa.mostrar();
+
+                if (mapa.hayGuardiaCerca(pos)) {
+                    System.out.println();
+                    System.out.println("////////////////////////////////////");
+                    System.out.println("// ¡Fuiste capturado por un guardia! //");
+                    System.out.println("////////////////////////////////////");
+                    System.out.println();
+                    break;
+                }
+
+                //fallback al usuario
+                if (mensaje != null) {
+                    System.out.println();
+                    System.out.println(mensaje);
+                    System.out.println("------------------------------------");
+                    System.out.println();
+                    mensaje = null;
                 }
             }
-            // Muestra el estado actual del mapa después del movimiento de Snake
-            mapa.mostrarMapa();
-            
-            // Turno de los guardias para moverse
-            mapa.moverGuardias();
-            
-            // Mensaje de advertencia tras mover guardias
-            System.out.println("----------------------------------------");
-            System.out.println("CUIDADO!- Los guardias te estan buscando");
-            System.out.println("----------------------------------------");
-            mapa.mostrarMapa();
-            
-            // Verifica si hay algún guardia cerca de Snake
-            if (mapa.hayGuardiaCerca(snakePosicion)) {
-                System.out.println(" ");
-                System.out.println("////////////////////////////////////");
-                System.out.println("//Fuiste capturado por un guardia!//");
-                System.out.println("////////////////////////////////////");
-                System.out.println(" ");
-                break; // Fin del juego por captura
-            }
-            
-            // Si hay un mensaje (como encontrar la bomba), lo muestra
-            if (mensaje != null) {
-                System.out.println(" ");
-                System.out.println(mensaje);
-                System.out.println("------------------------------------");
-                System.out.println(" ");
-                mensaje = null; // Se limpia para el siguiente turno
-            }
+        } else {
+            C4 c4 = new C4();
+            Puerta puerta = new Puerta();
+            Posicion c4Pos = mapa.establecerObjetivo(c4);
+            Posicion hangarPos = mapa.establecerObjetivo(puerta);
 
+            mapa.ubicarEnemigos(4, snake.getPosicion(), c4Pos, hangarPos);
+            mapa.mostrar();
+
+            boolean sobreHangar = false;
+            String mensaje = null;
+            int hangarX = hangarPos.getX();
+            int hangarY = hangarPos.getY();
+
+            while (true) {
+                System.out.println("---------------------------------");
+                System.out.print("Mover (w:↑ - a:← - s:↓ - d:→): ");
+                String d = sc.next();
+
+                snake.mover(mapa, d);
+                Posicion pos = snake.getPosicion();
+
+                // pisé la puerta sin C4, repinto la puerta
+                if (sobreHangar) {
+                    mapa.getMatriz()[hangarY][hangarX].setObjeto(new Puerta());
+                    sobreHangar = false;
+                }
+
+                // obtengo el objeto de la celda
+                Objeto obj = mapa.getMatriz()[pos.getY()][pos.getX()].getObjeto();
+
+                // chequeo de objeto de la celda
+                if (obj instanceof C4) {
+                    snake.recogerBomba((C4) obj);
+                    mensaje = "Encontraste la bomba para abrir el hangar!";
+                    mapa.getMatriz()[pos.getY()][pos.getX()].removerObjeto();
+                } else if (obj instanceof Puerta) {
+                    if (!snake.tieneBomba()) {
+                        mensaje = "Te falta la bomba para entrar!";
+                        mapa.getMatriz()[hangarY][hangarX].setObjeto(new Puerta());
+                        sobreHangar = true;
+                    } else {
+                        System.out.println();
+                        System.out.println("--------------------------------------");
+                        System.out.println("- ¡Llegaste al hangar. Misión completada! -");
+                        System.out.println("--------------------------------------");
+                        System.out.println();
+                        break;
+                    }
+                }
+
+                mapa.mostrar();
+                mapa.moverGuardias();
+                System.out.println("CUIDADO: ¡Los guardias se están moviendo!");
+                mapa.mostrar();
+
+                if (mapa.hayGuardiaCerca(pos)) {
+                    System.out.println();
+                    System.out.println("// ¡Fuiste capturado por un guardia! //");
+                    System.out.println();
+                    break;
+                }
+
+                if (mensaje != null) {
+                    System.out.println(mensaje);
+                    mensaje = null;
+                }
+            }
         }
-    
     }
-    
 }

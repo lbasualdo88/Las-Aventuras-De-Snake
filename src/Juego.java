@@ -9,26 +9,27 @@ public class Juego {
 
 
     public static void main(String[] args) {
-        Scanner leer = new Scanner(System.in);
-        iniciar(leer);
-        leer.close();
+        Scanner sc = new Scanner(System.in);
+        iniciar(sc);
+        sc.close();
     }
 
-    public static void iniciar(Scanner leer) {
-        while (true) {
+    public static void iniciar(Scanner sc) {
+        boolean salir = true;
+        while (salir) {
             System.out.println("------------------------");
             System.out.println("1- Iniciar Nueva Partida");
             System.out.println("2- Continuar Partida");
             System.out.println("3- Salir");
             System.out.println("------------------------");
 
-            int opcion = leer.nextInt();
+            int opcion = sc.nextInt();
             switch (opcion) {
                 case 1:
-                    nuevaPartida(leer);
+                    nuevaPartida(sc);
                     break;
                 case 2:
-                    cargarPartida(leer);
+                    cargarPartida(sc);
                     break;
                 case 3:
                     System.out.println("-------------------------------------");
@@ -40,7 +41,7 @@ public class Juego {
                         System.out.println("Querés guardarlo?");
                         System.out.println("1- SI");
                         System.out.println("2- NO");
-                        opcionSalir = leer.next().trim(); // corta los espacios
+                        opcionSalir = sc.next().trim();
                         if (!opcionSalir.equals("1") && !opcionSalir.equals("2")) {
                             System.out.println("Opción inválida. Debes ingresar 1 o 2.");
                         }
@@ -49,13 +50,16 @@ public class Juego {
                     if (opcionSalir.equals("1")) {
                         guardarEstado();
                     }
+                    salir = false;
                     break;
+                default:
+                    System.out.println("Opción inválida");
             }
         }
     }
 
-    public static void nuevaPartida(Scanner leer) {
-        reanudarPartida(leer);
+    public static void nuevaPartida(Scanner sc) {
+        reanudarPartida(sc);
         // early return si ya tiene alguna mision hecha
         if (misionRealizada > 0) return;
 
@@ -78,7 +82,7 @@ public class Juego {
             System.out.println((maxMisiones + 1) + "- Volver");
             System.out.println("--------------------------------------");
 
-            int eleccion = leer.nextInt();
+            int eleccion = sc.nextInt();
 
             // la ultima opcion siempre es volver
             if (eleccion == maxMisiones + 1) {
@@ -87,17 +91,17 @@ public class Juego {
                 Mapa mapa1   = new Mapa();
                 Snake snake1 = new Snake(new Posicion(0, 6));
                 mapa1.colocarPersonaje(snake1);
-                new MisionIntermedia(1, mapa1, snake1, leer).iniciar();
+                new MisionIntermedia(1, mapa1, snake1, sc).iniciar();
                 misionRealizada = Math.max(misionRealizada, 1);
             } else if (eleccion == 2 && maxMisiones >= 2) {
                 Mapa mapa2   = new Mapa(9, 9);
                 Snake snake2 = new Snake(new Posicion(0, 8));
                 mapa2.colocarPersonaje(snake2);
-                new MisionIntermedia(2, mapa2, snake2, leer).iniciar();
+                new MisionIntermedia(2, mapa2, snake2, sc).iniciar();
                 misionRealizada = Math.max(misionRealizada, 2);
             } else if (eleccion == 3 && maxMisiones >= 3) {
                 Snake snake3 = new Snake(new Posicion(0, 0));
-                new MisionFinal(null, snake3, leer).iniciar();
+                new MisionFinal(null, snake3, sc).iniciar();
                 misionRealizada = Math.max(misionRealizada, 3);
             } else {
                 System.out.println("Opción inválida. Ingresa de 1 a " + (maxMisiones + 1));
@@ -105,9 +109,9 @@ public class Juego {
         }
     }
 
-    public static void cargarPartida(Scanner leer) {
+    public static void cargarPartida(Scanner sc) {
         System.out.print("Escribir el código de guardado: ");
-        int codigo = leer.nextInt();
+        int codigo = sc.nextInt();
         if (codigo == codigoGuardado) {
             misionRealizada = codigo / FACTOR;
             System.out.println("Partida cargada, misiones completadas: " + misionRealizada);
@@ -124,17 +128,17 @@ public class Juego {
         System.out.printf("> %06d%n", codigo);
     }
 
-    private static void reanudarPartida(Scanner leer) {
+    private static void reanudarPartida(Scanner sc) {
         if (misionRealizada >= 2) {
             System.out.println("Reanudando en Batalla Final");
             Snake snake = new Snake(new Posicion(0, 0));
-            new MisionFinal(null, snake, leer).iniciar();
+            new MisionFinal(null, snake, sc).iniciar();
         } else if (misionRealizada == 1) {
             System.out.println("Reanudando en Almacén de Armas");
             Mapa mapa = new Mapa(9, 9);
             Snake snake = new Snake(new Posicion(0, 8));
             mapa.colocarPersonaje(snake);
-            new MisionIntermedia(2, mapa, snake, leer).iniciar();
+            new MisionIntermedia(2, mapa, snake, sc).iniciar();
             misionRealizada = Math.max(misionRealizada, 2);
         }
     }

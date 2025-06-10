@@ -1,6 +1,12 @@
+import java.util.Random;
 import java.util.Scanner;
 
 public class Juego {
+    private static final int FACTOR = 1000;
+    private static final Random rnd = new Random();
+    private static int misionRealizada = 0;
+    private static int codigoGuardado = -1;
+
 
     public static void main(String[] args) {
         Scanner leer = new Scanner(System.in);
@@ -9,9 +15,7 @@ public class Juego {
     }
 
     public static void iniciar(Scanner leer) {
-        boolean salir = true;
-
-        while (salir) {
+        while (true) {
             System.out.println("------------------------");
             System.out.println("1- Iniciar Nueva Partida");
             System.out.println("2- Continuar Partida");
@@ -24,60 +28,114 @@ public class Juego {
                     nuevaPartida(leer);
                     break;
                 case 2:
-                    cargarPartida();
+                    cargarPartida(leer);
                     break;
                 case 3:
                     System.out.println("-------------------------------------");
-                    System.out.println("Si sales, pierdes la partida guardada");
+                    System.out.println("Podés guardar el progreso de la partida antes de salir.");
                     System.out.println("-------------------------------------");
-                    System.out.println("Quieres salir?:");
-                    System.out.println("1- SI");
-                    System.out.println("2- NO");
-                    if (leer.nextInt() == 1) {
-                        salir = false;
+
+                    String opcionSalir;
+                    do {
+                        System.out.println("Querés guardarlo?");
+                        System.out.println("1- SI");
+                        System.out.println("2- NO");
+                        opcionSalir = leer.next().trim(); // corta los espacios
+                        if (!opcionSalir.equals("1") && !opcionSalir.equals("2")) {
+                            System.out.println("Opción inválida. Debes ingresar 1 o 2.");
+                        }
+                    } while (!opcionSalir.equals("1") && !opcionSalir.equals("2"));
+
+                    if (opcionSalir.equals("1")) {
+                        guardarEstado();
                     }
                     break;
             }
         }
-
     }
 
     public static void nuevaPartida(Scanner leer) {
+        reanudarPartida(leer);
+        // early return si ya tiene alguna mision hecha
+        if (misionRealizada > 0) return;
+
         boolean volver = true;
 
         while (volver) {
+            // obtener la cantidad de misiones a mostrar
+            int maxMisiones = Math.min(misionRealizada + 1, 3);
+
             System.out.println("----------------MISION----------------");
-            System.out.println("1- Hangar de Entrada");
-            System.out.println("2- Almacén de Armas");
-            System.out.println("3- Hangar de Metal Gear(Batalla Final)");
-            System.out.println("4- Volver");
+
+            for (int i = 1; i <= maxMisiones; i++) {
+                System.out.print(i + "- ");
+                switch (i) {
+                    case 1 -> System.out.println("Hangar de Entrada");
+                    case 2 -> System.out.println("Almacén de Armas");
+                    case 3 -> System.out.println("Hangar de Metal Gear (Batalla Final)");
+                }
+            }
+            System.out.println((maxMisiones + 1) + "- Volver");
             System.out.println("--------------------------------------");
 
-            switch (leer.nextInt()) {
-                case 1:
-                    Mapa mapa1 = new Mapa();
-                    Snake snake1 = new Snake(new Posicion(0, 6));
-                    mapa1.colocarPersonaje(snake1);
-                    new MisionIntermedia(1, mapa1, snake1, leer).iniciar();
-                    break;
-                case 2:
-                    Mapa mapa2 = new Mapa(9, 9);
-                    Snake snake2 = new Snake(new Posicion(0, 8));
-                    mapa2.colocarPersonaje(snake2);
-                    new MisionIntermedia(2, mapa2, snake2, leer).iniciar();
-                    break;
-                case 3:
-                    Snake snake3 = new Snake(new Posicion(0, 8));
-                    new MisionFinal(null, snake3, leer).iniciar();
-                    break;
-                case 4:
-                    volver = false;
-                    break;
+            int eleccion = leer.nextInt();
+
+            // la ultima opcion siempre es volver
+            if (eleccion == maxMisiones + 1) {
+                volver = false;
+            } else if (eleccion == 1) {
+                Mapa mapa1   = new Mapa();
+                Snake snake1 = new Snake(new Posicion(0, 6));
+                mapa1.colocarPersonaje(snake1);
+                new MisionIntermedia(1, mapa1, snake1, leer).iniciar();
+                misionRealizada = Math.max(misionRealizada, 1);
+            } else if (eleccion == 2 && maxMisiones >= 2) {
+                Mapa mapa2   = new Mapa(9, 9);
+                Snake snake2 = new Snake(new Posicion(0, 8));
+                mapa2.colocarPersonaje(snake2);
+                new MisionIntermedia(2, mapa2, snake2, leer).iniciar();
+                misionRealizada = Math.max(misionRealizada, 2);
+            } else if (eleccion == 3 && maxMisiones >= 3) {
+                Snake snake3 = new Snake(new Posicion(0, 0));
+                new MisionFinal(null, snake3, leer).iniciar();
+                misionRealizada = Math.max(misionRealizada, 3);
+            } else {
+                System.out.println("Opción inválida. Ingresa de 1 a " + (maxMisiones + 1));
             }
         }
     }
 
-    public static void cargarPartida() {
-        System.out.println("Desde metodo cargar partida");
+    public static void cargarPartida(Scanner leer) {
+        System.out.print("Escribir el código de guardado: ");
+        int codigo = leer.nextInt();
+        if (codigo == codigoGuardado) {
+            misionRealizada = codigo / FACTOR;
+            System.out.println("Partida cargada, misiones completadas: " + misionRealizada);
+        } else {
+            System.out.println("Código inválido");
+        }
+    }
+
+    private static void guardarEstado() {
+        int aleatorio = rnd.nextInt(FACTOR);
+        int codigo = misionRealizada * FACTOR + aleatorio;
+        codigoGuardado = codigo;
+        System.out.println("Partida guardada. Tu código es:");
+        System.out.printf("> %06d%n", codigo);
+    }
+
+    private static void reanudarPartida(Scanner leer) {
+        if (misionRealizada >= 2) {
+            System.out.println("Reanudando en Batalla Final");
+            Snake snake = new Snake(new Posicion(0, 0));
+            new MisionFinal(null, snake, leer).iniciar();
+        } else if (misionRealizada == 1) {
+            System.out.println("Reanudando en Almacén de Armas");
+            Mapa mapa = new Mapa(9, 9);
+            Snake snake = new Snake(new Posicion(0, 8));
+            mapa.colocarPersonaje(snake);
+            new MisionIntermedia(2, mapa, snake, leer).iniciar();
+            misionRealizada = Math.max(misionRealizada, 2);
+        }
     }
 }

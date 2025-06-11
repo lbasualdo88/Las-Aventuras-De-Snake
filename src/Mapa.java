@@ -171,7 +171,8 @@ public class Mapa {
             Celda celda = matriz[pos.getY()][pos.getX()];
 
             // Confirma que sigue habiendo un guardia en esa posición (no se movió aún)
-            if (celda.tienePersonaje() && celda.getPersonaje() instanceof Guardia guardia) {
+            if (celda.tienePersonaje() && celda.getPersonaje() instanceof Guardia) {
+                Guardia guardia = (Guardia) celda.getPersonaje();
                 guardia.mover(this, null);
             }
         }

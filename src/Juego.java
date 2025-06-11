@@ -26,6 +26,7 @@ public class Juego {
             int opcion = sc.nextInt();
             switch (opcion) {
                 case 1:
+                    misionRealizada = 0; // reset al elegir nueva partida
                     nuevaPartida(sc);
                     break;
                 case 2:
@@ -50,7 +51,6 @@ public class Juego {
                     if (opcionSalir.equals("1")) {
                         guardarEstado();
                     }
-                    salir = false;
                     break;
                 default:
                     System.out.println("Opción inválida");
@@ -59,7 +59,6 @@ public class Juego {
     }
 
     public static void nuevaPartida(Scanner sc) {
-        reanudarPartida(sc);
         // early return si ya tiene alguna mision hecha
         if (misionRealizada > 0) return;
 
@@ -74,9 +73,15 @@ public class Juego {
             for (int i = 1; i <= maxMisiones; i++) {
                 System.out.print(i + "- ");
                 switch (i) {
-                    case 1 -> System.out.println("Hangar de Entrada");
-                    case 2 -> System.out.println("Almacén de Armas");
-                    case 3 -> System.out.println("Hangar de Metal Gear (Batalla Final)");
+                    case 1:
+                        System.out.println("Hangar de Entrada");
+                        break;
+                    case 2:
+                        System.out.println("Almacén de Armas");
+                        break;
+                    case 3:
+                        System.out.println("Hangar de Metal Gear (Batalla Final)");
+                        break;
                 }
             }
             System.out.println((maxMisiones + 1) + "- Volver");
@@ -91,18 +96,27 @@ public class Juego {
                 Mapa mapa1   = new Mapa();
                 Snake snake1 = new Snake(new Posicion(0, 6));
                 mapa1.colocarPersonaje(snake1);
-                new MisionIntermedia(1, mapa1, snake1, sc).iniciar();
-                misionRealizada = Math.max(misionRealizada, 1);
+                Mision m1 = new MisionIntermedia(1, mapa1, snake1, sc);
+                m1.iniciar();
+                if (m1.isMisionCompletada()) {
+                    misionRealizada = Math.max(misionRealizada, 1);
+                }
             } else if (eleccion == 2 && maxMisiones >= 2) {
                 Mapa mapa2   = new Mapa(9, 9);
                 Snake snake2 = new Snake(new Posicion(0, 8));
                 mapa2.colocarPersonaje(snake2);
-                new MisionIntermedia(2, mapa2, snake2, sc).iniciar();
-                misionRealizada = Math.max(misionRealizada, 2);
+                Mision m2 = new MisionIntermedia(2, mapa2, snake2, sc);
+                m2.iniciar();
+                if (m2.isMisionCompletada()) {
+                    misionRealizada = Math.max(misionRealizada, 2);
+                }
             } else if (eleccion == 3 && maxMisiones >= 3) {
                 Snake snake3 = new Snake(new Posicion(0, 0));
-                new MisionFinal(null, snake3, sc).iniciar();
-                misionRealizada = Math.max(misionRealizada, 3);
+                Mision m3 = new MisionFinal(null, snake3, sc);
+                m3.iniciar();
+                if (m3.isMisionCompletada()) {
+                    misionRealizada = Math.max(misionRealizada, 3);
+                }
             } else {
                 System.out.println("Opción inválida. Ingresa de 1 a " + (maxMisiones + 1));
             }
@@ -115,6 +129,7 @@ public class Juego {
         if (codigo == codigoGuardado) {
             misionRealizada = codigo / FACTOR;
             System.out.println("Partida cargada, misiones completadas: " + misionRealizada);
+            reanudarPartida(sc); // se reanuda la partida de manera automatica
         } else {
             System.out.println("Código inválido");
         }

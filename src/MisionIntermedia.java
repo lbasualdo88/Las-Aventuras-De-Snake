@@ -35,6 +35,17 @@ public class MisionIntermedia extends Mision {
                 snake.mover(mapa, d);
                 Posicion pos = snake.getPosicion();
 
+                if (mapa.hayGuardiaCerca(pos)) {
+                    System.out.println();
+                    System.out.println("////////////////////////////////////");
+                    System.out.println("// ¡Fuiste capturado por un guardia! //");
+                    System.out.println("////////////////////////////////////");
+                    System.out.println();
+                    misionCompletada = false;
+                    mapa.mostrar();
+                    break;
+                }
+
                 // si el usuario pasa sin la llave por el hangar, seteo el hangar para que no se borre
                 if (sobreHangar) {
                     mapa.getMatriz()[hangarY][hangarX].setObjeto(new Puerta());
@@ -59,6 +70,8 @@ public class MisionIntermedia extends Mision {
                         System.out.println("- Llegaste al hangar. Misión completada! -");
                         System.out.println("--------------------------------------");
                         System.out.println();
+                        misionCompletada = true;
+                        mapa.mostrar();
                         break;
                     }
                 }
@@ -76,6 +89,7 @@ public class MisionIntermedia extends Mision {
                     System.out.println("// ¡Fuiste capturado por un guardia! //");
                     System.out.println("////////////////////////////////////");
                     System.out.println();
+                    misionCompletada = false;
                     break;
                 }
 
@@ -110,6 +124,15 @@ public class MisionIntermedia extends Mision {
                 snake.mover(mapa, d);
                 Posicion pos = snake.getPosicion();
 
+                if (mapa.hayGuardiaCerca(pos)) {
+                    System.out.println();
+                    System.out.println("// ¡Fuiste capturado por un guardia! //");
+                    System.out.println();
+                    misionCompletada = false;
+                    mapa.mostrar();
+                    break;
+                }
+
                 // pisé la puerta sin C4, repinto la puerta
                 if (sobreHangar) {
                     mapa.getMatriz()[hangarY][hangarX].setObjeto(new Puerta());
@@ -135,6 +158,7 @@ public class MisionIntermedia extends Mision {
                         System.out.println("- ¡Llegaste al hangar. Misión completada! -");
                         System.out.println("--------------------------------------");
                         System.out.println();
+                        misionCompletada = true;
                         break;
                     }
                 }
@@ -148,6 +172,7 @@ public class MisionIntermedia extends Mision {
                     System.out.println();
                     System.out.println("// ¡Fuiste capturado por un guardia! //");
                     System.out.println();
+                    misionCompletada = false;
                     break;
                 }
 

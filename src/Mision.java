@@ -4,6 +4,7 @@ public abstract class Mision {
     protected final Mapa mapa;
     protected final Snake snake;
     protected final Scanner sc;
+    protected boolean misionCompletada = false;
 
     public Mision(Mapa mapa, Snake snake, Scanner sc) {
         this.mapa = mapa;
@@ -12,4 +13,8 @@ public abstract class Mision {
     }
 
     public abstract void iniciar();
+
+    public boolean isMisionCompletada() {
+        return misionCompletada;
+    }
 }

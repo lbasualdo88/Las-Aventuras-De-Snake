@@ -54,13 +54,13 @@ public class MisionFinal extends Mision {
     }
 
     public void turnoSnake() {
-        boolean eleccionUsuario = usuario.combate();         // Jugador elige atacar o esquivar
-        boolean eleccionPc = pc.combateRandom();             // Rex elige aleatoriamente
+        boolean eleccionUsuario = usuario.combate(); // Jugador elige atacar o esquivar
+        boolean eleccionPc = pc.combateRandom(); // Rex elige aleatoriamente
 
         if (eleccionUsuario && eleccionPc) {
             // Ambos atacan, Snake acierta el disparo
             int impacto = -20;
-            pc.setVida(impacto);  // Se reduce vida a Rex
+            pc.setVida(impacto); // Se reduce vida a Rex
             System.out.println("--------------------------------------------------");
             System.out.println("Le diste! (-20hp) Vida de Rex: " + pc.getVida());
             System.out.println("--------------------------------------------------");
@@ -83,12 +83,12 @@ public class MisionFinal extends Mision {
 
     // Lógica del turno de Rex
     public void turnoMetalGear() {
-        boolean eleccionPc = pc.combateRandom();             // Rex elige si atacar o esquivar
-        boolean eleccionUsuario = usuario.combateRandom();   // Snake elige aleatoriamente
+        boolean eleccionPc = pc.combateRandom(); // Rex elige si atacar o esquivar
+        boolean eleccionUsuario = usuario.combateRandom(); // Snake elige aleatoriamente
 
         if (eleccionPc && eleccionUsuario) {
-            int impacto = pc.tipoDeAtaque();  // Devuelve daño entre -15 o -40
-            usuario.setVida(impacto);         // Se reduce vida a Snake
+            int impacto = pc.tipoDeAtaque(); // Devuelve daño entre -15 o -40
+            usuario.setVida(impacto); // Se reduce vida a Snake
             System.out.println("--------------------------------------------------");
             System.out.println("Te dieron! (" + impacto + "hp) Tu vida: " + usuario.getVida());
             System.out.println("--------------------------------------------------");
@@ -119,7 +119,7 @@ public class MisionFinal extends Mision {
             System.out.println("--- Game Over ----");
             System.out.println("------------------");
             System.out.println(" ");
-
+            misionCompletada = false;
             // Si Rex se queda sin vida, el jugador gana
         } else if (pc.getVida() <= 0) {
             fin = false;
@@ -128,6 +128,7 @@ public class MisionFinal extends Mision {
             System.out.println("---- Ganaste -----");
             System.out.println("------------------");
             System.out.println(" ");
+            misionCompletada = true;
         }
         return fin;
     }

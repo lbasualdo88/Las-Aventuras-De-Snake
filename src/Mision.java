@@ -12,7 +12,7 @@ public abstract class Mision {
         this.sc = sc;
     }
 
-    public abstract void iniciar();
+    public abstract void iniciar(int cantidadGuardias);
 
     public boolean isMisionCompletada() {
         return misionCompletada;

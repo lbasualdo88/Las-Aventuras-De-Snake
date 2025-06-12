@@ -11,6 +11,7 @@ public class Juego {
     private static final Random rnd = new Random();   // Objeto Random para números aleatorios
     private static int misionRealizada = 0;           // Lleva el registro de la última misión completada
     private static int codigoGuardado = -1;           // Almacena el código de guardado actual (-1 si no hay ninguno)
+    private static int cantidadGuardias = 0;           // Almacena el código de guardado actual (-1 si no hay ninguno)
 
     // Método principal que inicia el programa
     public static void main(String[] args) {
@@ -48,6 +49,7 @@ public class Juego {
 
             switch (opcion) {
                 case 1:
+                    cantidadGuardias = dificultad(sc);
                     misionRealizada = 0; // Reiniciar progreso
                     nuevaPartida(sc);    // Comenzar una nueva partida
                     break;
@@ -97,7 +99,7 @@ public class Juego {
             int eleccion;
 
             while (true) {
-                System.out.println("Elige una opción entre 1 y " + (maxMisiones+1) + ":");
+                System.out.println("Elige una opción entre 1 y " + (maxMisiones + 1) + ":");
                 if (!sc.hasNextInt()) {
                     System.out.println("Opción inválida. Debes ingresar un número.");
                     sc.next();
@@ -120,17 +122,18 @@ public class Juego {
                 // Si elige misión 1
             } else if (eleccion == 1) {
                 if (ejecutarMision1(sc)) {
-                    misionRealizada =1;
+                    misionRealizada = 1;
                 }
             } // Misión 2 (solo disponible si maxMisiones >= 2)
             else if (eleccion == 2 && maxMisiones >= 2) {
-                if (ejecutarMision2(sc)){
+                if (ejecutarMision2(sc)) {
                     misionRealizada = 2;
                 }
             } // Misión 3 (Batalla final)
             else if (eleccion == 3 && maxMisiones >= 3) {
                 if (ejecutarMisionFinal(sc)) {
                     misionRealizada = 3;
+                    volver = false;
                 }
             } // Cualquier otra opción inválida
             else {
@@ -140,27 +143,27 @@ public class Juego {
     }
 
     private static boolean ejecutarMision1(Scanner sc) {
-        Mapa mapa   = new Mapa();
+        Mapa mapa = new Mapa();
         Snake snake = new Snake(new Posicion(0, 6));
         mapa.colocarPersonaje(snake);
         MisionIntermedia m1 = new MisionIntermedia(1, mapa, snake, sc);
-        m1.iniciar();
+        m1.iniciar(cantidadGuardias);
         return m1.isMisionCompletada();
     }
 
     private static boolean ejecutarMision2(Scanner sc) {
-        Mapa mapa   = new Mapa(9, 9);
+        Mapa mapa = new Mapa(9, 9);
         Snake snake = new Snake(new Posicion(0, 8));
         mapa.colocarPersonaje(snake);
         MisionIntermedia m2 = new MisionIntermedia(2, mapa, snake, sc);
-        m2.iniciar();
+        m2.iniciar(cantidadGuardias);
         return m2.isMisionCompletada();
     }
 
     private static boolean ejecutarMisionFinal(Scanner sc) {
         Snake snake = new Snake(new Posicion(0, 0));
         MisionFinal m3 = new MisionFinal(null, snake, sc);
-        m3.iniciar();
+        m3.iniciar(cantidadGuardias);
         return m3.isMisionCompletada();
     }
 
@@ -238,5 +241,51 @@ public class Juego {
             }
         } while (salir);
         return seguirJugando;
+    }
+
+    private static int dificultad(Scanner sc) {
+        int numeroGuardias = 0;
+        System.out.println("-------------------");
+        System.out.println("--Elije dificultad--");
+        System.out.println("-------------------");
+        System.out.println("1- Facil");
+        System.out.println("2- Media");
+        System.out.println("3- Dificil");
+        System.out.println("-------------------");
+
+        while (!sc.hasNextInt()) {
+            System.out.println("Opción inválida. Debes ingresar un número del 1 al 3");
+            sc.next();
+        }
+
+        int opcion = sc.nextInt();
+
+        while (opcion < 1 || opcion > 3) {
+            System.out.println("Número inválido. Ingresa 1, 2 o 3.");
+            while (!sc.hasNextInt()) {
+                System.out.println("Opción inválida. Debes ingresar un número del 1 al 3");
+                sc.next();
+            }
+            opcion = sc.nextInt();
+        }
+        switch (opcion) {
+            case 1:
+                numeroGuardias = 2;
+                break;
+            case 2:
+                numeroGuardias = 3;
+                break;
+            case 3:
+                numeroGuardias = 4;
+                break;
+            default:
+                System.out.println("Opción inválida");
+        }
+        System.out.println(" ");
+        System.out.println("------------------");
+        System.out.println("Dificultad seteada");
+        System.out.println("------------------");
+        System.out.println(" ");
+        return numeroGuardias;
     }
 }

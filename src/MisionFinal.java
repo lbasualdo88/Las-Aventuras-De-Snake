@@ -12,7 +12,7 @@ public class MisionFinal extends Mision {
     }
 
     // Método principal que inicia el combate entre Snake y Rex
-    public void iniciar() {
+    public void iniciar(int cantidadGuardias) {
         int partida = 1;
         System.out.println("-----------------------");
         System.out.println("Inicia el combate final");

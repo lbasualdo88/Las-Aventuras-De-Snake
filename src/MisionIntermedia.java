@@ -2,14 +2,15 @@ import java.util.Scanner;
 
 public class MisionIntermedia extends Mision {
     private final int numero; // 1 = Hangar de Entrada, 2 = Almacén de Armas
-
+    
+    
     public MisionIntermedia(int numero, Mapa mapa, Snake snake, Scanner sc) {
         super(mapa, snake, sc);
         this.numero = numero;
     }
 
     @Override
-    public void iniciar() {
+    public void iniciar(int cantidadGuardias) {
         mapa.colocarPersonaje(snake);
 
         if (numero == 1) {
@@ -18,7 +19,7 @@ public class MisionIntermedia extends Mision {
             Posicion llavePos = mapa.establecerObjetivo(tarjeta);
             Posicion hangarPos = mapa.establecerObjetivo(puerta);
 
-            mapa.ubicarEnemigos(2, snake.getPosicion(), llavePos, hangarPos);
+            mapa.ubicarEnemigos(cantidadGuardias, snake.getPosicion(), llavePos, hangarPos);
             mapa.mostrar();
 
             boolean sobreHangar = false;
@@ -109,7 +110,7 @@ public class MisionIntermedia extends Mision {
             Posicion c4Pos = mapa.establecerObjetivo(c4);
             Posicion hangarPos = mapa.establecerObjetivo(puerta);
 
-            mapa.ubicarEnemigos(2, snake.getPosicion(), c4Pos, hangarPos);
+            mapa.ubicarEnemigos(cantidadGuardias, snake.getPosicion(), c4Pos, hangarPos);
             mapa.mostrar();
 
             boolean sobreHangar = false;

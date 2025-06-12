@@ -49,7 +49,7 @@ public class Mapa {
     // Ubica enemigos (guardias) aleatoriamente, evitando zonas sensibles
     public void ubicarEnemigos(int cantidad, Posicion snakePosicion, Posicion llavePosicion, Posicion hangarPosicion) {
         Random random = new Random();
-        int colocados = 4;
+        int colocados = 0;
 
         while (colocados < cantidad) {
             int x = random.nextInt(matriz[0].length);
@@ -93,37 +93,37 @@ public class Mapa {
     }
 
     // Verifica si hay un guardia adyacente (arriba, abajo, izquierda o derecha) a una posición dada
-    public boolean hayGuardiaCerca(Posicion posicion) {
+    public boolean hayGuardiaCerca(Posicion posicion, int distancia) {
         int x = posicion.getX();
         int y = posicion.getY();
 
         // Verifica arriba
-        if (y - 1 >= 0) {
-            Celda arriba = matriz[y - 1][x];
+        if (y - distancia >= 0) {
+            Celda arriba = matriz[y - distancia][x];
             if (arriba.tienePersonaje() && arriba.getPersonaje() instanceof Guardia) {
                 return true;
             }
         }
 
         // Verifica abajo
-        if (y + 1 < filas) {
-            Celda abajo = matriz[y + 1][x];
+        if (y + distancia < filas) {
+            Celda abajo = matriz[y + distancia][x];
             if (abajo.tienePersonaje() && abajo.getPersonaje() instanceof Guardia) {
                 return true;
             }
         }
 
         // Verifica izquierda
-        if (x - 1 >= 0) {
-            Celda izquierda = matriz[y][x - 1];
+        if (x - distancia >= 0) {
+            Celda izquierda = matriz[y][x - distancia];
             if (izquierda.tienePersonaje() && izquierda.getPersonaje() instanceof Guardia) {
                 return true;
             }
         }
 
         // Verifica derecha
-        if (x + 1 < columnas) {
-            Celda derecha = matriz[y][x + 1];
+        if (x + distancia < columnas) {
+            Celda derecha = matriz[y][x + distancia];
             if (derecha.tienePersonaje() && derecha.getPersonaje() instanceof Guardia) {
                 return true;
             }

@@ -18,7 +18,7 @@ public class MisionIntermedia extends Mision {
             Posicion llavePos = mapa.establecerObjetivo(tarjeta);
             Posicion hangarPos = mapa.establecerObjetivo(puerta);
 
-            mapa.ubicarEnemigos(4, snake.getPosicion(), llavePos, hangarPos);
+            mapa.ubicarEnemigos(2, snake.getPosicion(), llavePos, hangarPos);
             mapa.mostrar();
 
             boolean sobreHangar = false;
@@ -35,7 +35,7 @@ public class MisionIntermedia extends Mision {
                 snake.mover(mapa, d);
                 Posicion pos = snake.getPosicion();
 
-                if (mapa.hayGuardiaCerca(pos)) {
+                if (mapa.hayGuardiaCerca(pos,1)) {
                     System.out.println();
                     System.out.println("////////////////////////////////////");
                     System.out.println("// ¡Fuiste capturado por un guardia! //");
@@ -84,7 +84,7 @@ public class MisionIntermedia extends Mision {
                 System.out.println("----------------------------------------");
                 mapa.mostrar();
 
-                if (mapa.hayGuardiaCerca(pos)) {
+                if (mapa.hayGuardiaCerca(pos,1)) {
                     System.out.println();
                     System.out.println("////////////////////////////////////");
                     System.out.println("// ¡Fuiste capturado por un guardia! //");
@@ -109,7 +109,7 @@ public class MisionIntermedia extends Mision {
             Posicion c4Pos = mapa.establecerObjetivo(c4);
             Posicion hangarPos = mapa.establecerObjetivo(puerta);
 
-            mapa.ubicarEnemigos(4, snake.getPosicion(), c4Pos, hangarPos);
+            mapa.ubicarEnemigos(2, snake.getPosicion(), c4Pos, hangarPos);
             mapa.mostrar();
 
             boolean sobreHangar = false;
@@ -125,7 +125,7 @@ public class MisionIntermedia extends Mision {
                 snake.mover(mapa, d);
                 Posicion pos = snake.getPosicion();
 
-                if (mapa.hayGuardiaCerca(pos)) {
+                if (mapa.hayGuardiaCerca(pos,3)) {
                     System.out.println();
                     System.out.println("// ¡Fuiste capturado por un guardia! //");
                     System.out.println();
@@ -171,7 +171,7 @@ public class MisionIntermedia extends Mision {
                 System.out.println("CUIDADO: ¡Los guardias se están moviendo!");
                 mapa.mostrar();
 
-                if (mapa.hayGuardiaCerca(pos)) {
+                if (mapa.hayGuardiaCerca(pos,3)) {
                     System.out.println();
                     System.out.println("// ¡Fuiste capturado por un guardia! //");
                     System.out.println();

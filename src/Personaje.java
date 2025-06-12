@@ -43,7 +43,4 @@ public abstract class Personaje {
         Vida = Math.max(0, Vida - golpe);
     }
 
-    public boolean estaVivo() {
-        return Vida > 0;
-    }
 }

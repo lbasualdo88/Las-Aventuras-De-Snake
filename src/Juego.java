@@ -1,28 +1,28 @@
-
 // Importamos clases necesarias
-import java.util.Random;   // Para generar códigos aleatorios al guardar la partida
-import java.util.Scanner;  // Para recibir entradas del usuario
+
+import java.util.Random;
+import java.util.Scanner;
 
 // Clase principal del juego
 public class Juego {
 
     // Constantes y variables estáticas
-    private static final int FACTOR = 1000;           // Factor multiplicador para generar el código de guardado
-    private static final Random rnd = new Random();   // Objeto Random para números aleatorios
-    private static int misionRealizada = 0;           // Lleva el registro de la última misión completada
-    private static int codigoGuardado = -1;           // Almacena el código de guardado actual (-1 si no hay ninguno)
-    private static int cantidadGuardias = 0;           // Almacena el código de guardado actual (-1 si no hay ninguno)
+    private static final int FACTOR = 1000; // Factor multiplicador para generar el código de guardado
+    private static final Random rnd = new Random(); // Objeto Random para números aleatorios
+    private static int misionRealizada = 0; // Lleva el registro de la última misión completada
+    private static int codigoGuardado = -1; // Almacena el código de guardado actual (-1 si no hay ninguno)
+    private static int cantidadGuardias = 0; // Almacena el código de guardado actual (0 si no hay ninguno)
 
     // Método principal que inicia el programa
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in); // Objeto Scanner para leer entradas
-        iniciar(sc);                         // Se llama al menú principal
-        sc.close();                          // Cerramos el scanner al salir
+        iniciar(sc); // Se llama al menú principal
+        sc.close(); // Cerramos el scanner al salir
     }
 
     // Menú principal del juego
     public static void iniciar(Scanner sc) {
-        boolean seguirJugando = true;  // Controla si se mantiene el bucle del menú
+        boolean seguirJugando = true; // Controla si se mantiene el bucle del menú
         while (seguirJugando) {
             // Mostrar opciones del menú principal
             System.out.println("------------------------");
@@ -51,10 +51,10 @@ public class Juego {
                 case 1:
                     cantidadGuardias = dificultad(sc);
                     misionRealizada = 0; // Reiniciar progreso
-                    nuevaPartida(sc);    // Comenzar una nueva partida
+                    nuevaPartida(sc); // Comenzar una nueva partida
                     break;
                 case 2:
-                    cargarPartida(sc);   // Cargar partida con código
+                    cargarPartida(sc); // Cargar partida con código
                     nuevaPartida(sc);
                     break;
                 case 3:
@@ -114,29 +114,28 @@ public class Juego {
                 System.out.println("Opción inválida");
             }
 
-            // Si elige "Volver"
+            // elige "Volver"
             if (eleccion == maxMisiones + 1) {
 
                 volver = procesoDeGuardado(sc);
 
-                // Si elige misión 1
+                // elige misión 1
             } else if (eleccion == 1) {
                 if (ejecutarMision1(sc)) {
                     misionRealizada = 1;
                 }
-            } // Misión 2 (solo disponible si maxMisiones >= 2)
+            } // Misión 2 (solo disponible si hizo la 1)
             else if (eleccion == 2 && maxMisiones >= 2) {
                 if (ejecutarMision2(sc)) {
                     misionRealizada = 2;
                 }
-            } // Misión 3 (Batalla final)
+            } // Misión 3 (solo disponible si hizo la 2)
             else if (eleccion == 3 && maxMisiones >= 3) {
                 if (ejecutarMisionFinal(sc)) {
                     misionRealizada = 3;
                     volver = false;
                 }
-            } // Cualquier otra opción inválida
-            else {
+            } else {
                 System.out.println("Opción inválida. Ingresa de 1 a " + (maxMisiones + 1));
             }
         }
@@ -217,6 +216,12 @@ public class Juego {
     private static boolean confirmacionDeSalida(Scanner sc) {
         boolean salir = true;
         boolean seguirJugando = true;
+
+        if (misionRealizada >= 3) {
+            System.out.println("Completaste el juego! Gracias por jugar.");
+            return false;
+        }
+
         do {
             // Confirmación de salida si no se terminó el juego
             System.out.println("-------------------------------------");
@@ -233,7 +238,7 @@ public class Juego {
                     salir = false;  // Volver al menú principal
                     break;
                 case 2:
-                    seguirJugando = false; // Salir del bucle principal
+                    seguirJugando = false;  // Salir del bucle principal
                     salir = false;
                     break;
                 default:

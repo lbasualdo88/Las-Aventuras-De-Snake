@@ -10,16 +10,6 @@ public class MetalGear extends Personaje implements Enemigo {
     public void mover(Mapa mapa, String direccion) {
     }
 
-    // Método que representa el ataque de Rex.
-    public boolean ataque() {
-        return true;
-    }
-
-    // Método que representa una evasión.
-    public boolean esquivar() {
-        return false;
-    }
-
     // Método que determina el tipo de ataque aleatoriamente
     public int tipoDeAtaque() {
         boolean esMisil = Math.random() < 0.5;

@@ -54,8 +54,10 @@ public class Juego {
                     nuevaPartida(sc); // Comenzar una nueva partida
                     break;
                 case 2:
-                    cargarPartida(sc); // Cargar partida con código
-                    nuevaPartida(sc);
+                    boolean tieneCodigo = cargarPartida(sc); // Cargar partida con código
+                    if (tieneCodigo) {
+                        nuevaPartida(sc);
+                    }
                     break;
                 case 3:
                     seguirJugando = confirmacionDeSalida(sc);
@@ -167,15 +169,31 @@ public class Juego {
     }
 
     // Método para cargar una partida previamente guardada con código
-    public static void cargarPartida(Scanner sc) {
+    public static boolean cargarPartida(Scanner sc) {
+        boolean conCodigo = false;
         System.out.print("Escribir el código de guardado: ");
+        while (!sc.hasNextInt()) {
+            System.out.println("----------------------------------------------");
+            System.out.println("Opción inválida. El código debe ser un número.");
+            sc.next(); // Limpia la entrada inválida
+            System.out.println("----------------------------------------------");
+            System.out.print("Ingrese un código numérico: ");
+        }
+
         int codigo = sc.nextInt();
+
+        
+
         if (codigo == codigoGuardado) {
             misionRealizada = codigo / FACTOR; // Se extrae la misión guardada del código
+            System.out.println("-----------------------------------------");
             System.out.println("Partida cargada, misiones completadas: " + misionRealizada);
+            System.out.println("-----------------------------------------");
+            conCodigo = true;
         } else {
             System.out.println("Código inválido");
         }
+        return conCodigo;
     }
 
     private static boolean procesoDeGuardado(Scanner sc) {

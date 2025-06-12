@@ -125,7 +125,7 @@ public class MisionIntermedia extends Mision {
                 snake.mover(mapa, d);
                 Posicion pos = snake.getPosicion();
 
-                if (mapa.hayGuardiaCerca(pos,3)) {
+                if (mapa.hayGuardiaCerca(pos,1)) {
                     System.out.println();
                     System.out.println("// ¡Fuiste capturado por un guardia! //");
                     System.out.println();
@@ -154,14 +154,20 @@ public class MisionIntermedia extends Mision {
                         mapa.getMatriz()[hangarY][hangarX].setObjeto(new Puerta());
                         sobreHangar = true;
                     } else {
-                        System.out.println();
-                        System.out.println("--------------------------------------");
-                        System.out.println("- ¡Llegaste al hangar. Misión completada! -");
-                        System.out.println("--------------------------------------");
-                        System.out.println();
-                        misionCompletada = true;
-                        
-                        break;
+                        if (!mapa.hayGuardiaCerca(pos, 3)) {
+                            System.out.println();
+                            System.out.println("--------------------------------------");
+                            System.out.println("- ¡Llegaste al hangar. Misión completada! -");
+                            System.out.println("--------------------------------------");
+                            System.out.println();
+                            misionCompletada = true;
+
+                            break;
+                        } else {
+                            // si hay guardia muy cerca, se advierte
+                            System.out.println("Hay un guardia demasiado cerca, esperá un momento!");
+                        }
+
                     }
                     
                 }
@@ -171,7 +177,11 @@ public class MisionIntermedia extends Mision {
                 System.out.println("CUIDADO: ¡Los guardias se están moviendo!");
                 mapa.mostrar();
 
-                if (mapa.hayGuardiaCerca(pos,3)) {
+                if (snake.tieneBomba() && mapa.hayGuardiaCerca(pos, 3)) {
+                    System.out.println("¡Hay un guardia cerca, ten cuidado!");
+                }
+
+                if (mapa.hayGuardiaCerca(pos,1)) {
                     System.out.println();
                     System.out.println("// ¡Fuiste capturado por un guardia! //");
                     System.out.println();

@@ -1,4 +1,3 @@
-
 public interface Enemigo {
     void atacar(Personaje objetivo);
 

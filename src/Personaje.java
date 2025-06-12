@@ -35,7 +35,7 @@ public abstract class Personaje {
 
     // Método abstracto para decidir aleatoriamente si el personaje ataca o esquiva
     public abstract boolean combateRandom();
-    
+
     // Método abstracto que devuelve un carácter para representar al personaje en el mapa
     public abstract char getRepresentacion();
 
@@ -43,5 +43,7 @@ public abstract class Personaje {
         Vida = Math.max(0, Vida - golpe);
     }
 
-    public boolean estaVivo() { return Vida > 0; }
+    public boolean estaVivo() {
+        return Vida > 0;
+    }
 }

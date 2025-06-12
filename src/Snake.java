@@ -1,10 +1,9 @@
-
 import java.util.Scanner;
 
 // Clase que representa al personaje Snake, hereda de Personaje
 public class Snake extends Personaje {
 
-    private final Scanner sc = new Scanner(System.in);      // Para leer entrada del usuario
+    private final Scanner sc = new Scanner(System.in);  // Para leer entrada del usuario
     private Tarjeta tarjeta;  // Tarjeta que puede recoger el personaje
     private C4 bomba;  // C4 que puede recoger el personaje
 
@@ -20,11 +19,6 @@ public class Snake extends Personaje {
         this.tarjeta = t;
     }
 
-    // Devuelve la tarjeta que tiene el personaje
-    public Tarjeta getTarjeta() {
-        return this.tarjeta;
-    }
-
     // Indica si el personaje tiene una tarjeta
     public boolean tieneTarjeta() {
         return this.tarjeta != null;
@@ -33,11 +27,6 @@ public class Snake extends Personaje {
     // Guarda una bomba que el personaje ha recogido
     public void recogerBomba(C4 b) {
         this.bomba = b;
-    }
-
-    // Devuelve la c4 que tiene el personaje
-    public C4 getC4() {
-        return this.bomba;
     }
 
     // Indica si el personaje tiene la bomba

@@ -40,10 +40,10 @@ public class MetalGear extends Personaje implements Enemigo {
 
     @Override
     public void atacar(Personaje objetivo) {
-        int dano = tipoDeAtaque();
-        objetivo.recibirGolpe(dano);
+        int golpe = tipoDeAtaque();
+        objetivo.recibirGolpe(golpe);
         System.out.printf("MetalGear hizo %d de daño a %s%n",
-                dano, objetivo.getClass().getSimpleName());
+                golpe, objetivo.getClass().getSimpleName());
     }
 
     // Método que define el comportamiento aleatorio de combate

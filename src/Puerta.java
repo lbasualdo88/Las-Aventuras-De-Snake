@@ -1,5 +1,4 @@
-
-public class Puerta extends Objeto{
+public class Puerta extends Objeto {
 
     @Override
     public String getTipo() {

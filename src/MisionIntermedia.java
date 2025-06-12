@@ -2,8 +2,8 @@ import java.util.Scanner;
 
 public class MisionIntermedia extends Mision {
     private final int numero; // 1 = Hangar de Entrada, 2 = Almacén de Armas
-    
-    
+
+
     public MisionIntermedia(int numero, Mapa mapa, Snake snake, Scanner sc) {
         super(mapa, snake, sc);
         this.numero = numero;
@@ -36,7 +36,7 @@ public class MisionIntermedia extends Mision {
                 snake.mover(mapa, d);
                 Posicion pos = snake.getPosicion();
 
-                if (mapa.hayGuardiaCerca(pos,1)) {
+                if (mapa.hayGuardiaCerca(pos, 1)) {
                     System.out.println();
                     System.out.println("////////////////////////////////////");
                     System.out.println("// ¡Fuiste capturado por un guardia! //");
@@ -72,7 +72,7 @@ public class MisionIntermedia extends Mision {
                         System.out.println("--------------------------------------");
                         System.out.println();
                         misionCompletada = true;
-                        
+
                         mapa.mostrar();
                         break;
                     }
@@ -85,7 +85,7 @@ public class MisionIntermedia extends Mision {
                 System.out.println("----------------------------------------");
                 mapa.mostrar();
 
-                if (mapa.hayGuardiaCerca(pos,1)) {
+                if (mapa.hayGuardiaCerca(pos, 1)) {
                     System.out.println();
                     System.out.println("////////////////////////////////////");
                     System.out.println("// ¡Fuiste capturado por un guardia! //");
@@ -126,7 +126,7 @@ public class MisionIntermedia extends Mision {
                 snake.mover(mapa, d);
                 Posicion pos = snake.getPosicion();
 
-                if (mapa.hayGuardiaCerca(pos,1)) {
+                if (mapa.hayGuardiaCerca(pos, 1)) {
                     System.out.println();
                     System.out.println("// ¡Fuiste capturado por un guardia! //");
                     System.out.println();
@@ -170,7 +170,7 @@ public class MisionIntermedia extends Mision {
                         }
 
                     }
-                    
+
                 }
 
                 mapa.mostrar();
@@ -182,7 +182,7 @@ public class MisionIntermedia extends Mision {
                     System.out.println("¡Hay un guardia cerca, ten cuidado!");
                 }
 
-                if (mapa.hayGuardiaCerca(pos,1)) {
+                if (mapa.hayGuardiaCerca(pos, 1)) {
                     System.out.println();
                     System.out.println("// ¡Fuiste capturado por un guardia! //");
                     System.out.println();

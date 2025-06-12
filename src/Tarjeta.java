@@ -1,8 +1,7 @@
-
-public class Tarjeta extends Objeto{
+public class Tarjeta extends Objeto {
 
     @Override
     public String getTipo() {
-         return "Tarjeta";
+        return "Tarjeta";
     }
 }

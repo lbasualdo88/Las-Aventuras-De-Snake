@@ -10,9 +10,9 @@ public class Posicion {
         this.y = y;
     }
 
-    // Setter para modificar el valor de Y
-    public void setY(int y) {
-        this.y = y;
+    // Getter para obtener el valor de X
+    public int getX() {
+        return x;
     }
 
     // Setter para modificar el valor de X
@@ -20,13 +20,13 @@ public class Posicion {
         this.x = x;
     }
 
-    // Getter para obtener el valor de X
-    public int getX() {
-        return x;
-    }
-
     // Getter para obtener el valor de Y
     public int getY() {
         return y;
+    }
+
+    // Setter para modificar el valor de Y
+    public void setY(int y) {
+        this.y = y;
     }
 }

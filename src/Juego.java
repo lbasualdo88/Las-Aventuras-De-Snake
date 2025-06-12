@@ -30,7 +30,21 @@ public class Juego {
             System.out.println("3- Salir");
             System.out.println("------------------------");
 
-            int opcion = sc.nextInt(); // Leer opción del usuario
+            while (!sc.hasNextInt()) {
+                System.out.println("Opción inválida. Debes ingresar un número del 1 al 3");
+                sc.next();
+            }
+
+            int opcion = sc.nextInt();
+
+            while (opcion < 1 || opcion > 3) {
+                System.out.println("Número inválido. Ingresa 1, 2 o 3.");
+                while (!sc.hasNextInt()) {
+                    System.out.println("Opción inválida. Debes ingresar un número del 1 al 3");
+                    sc.next();
+                }
+                opcion = sc.nextInt();
+            }
 
             switch (opcion) {
                 case 1:
@@ -80,7 +94,23 @@ public class Juego {
             System.out.println((maxMisiones + 1) + "- Volver");
             System.out.println("--------------------------------------");
 
-            int eleccion = sc.nextInt(); // Leer elección del usuario
+            int eleccion;
+
+            while (true) {
+                System.out.println("Elige una opción entre 1 y " + (maxMisiones+1) + ":");
+                if (!sc.hasNextInt()) {
+                    System.out.println("Opción inválida. Debes ingresar un número.");
+                    sc.next();
+                    continue;
+                }
+
+                eleccion = sc.nextInt();
+
+                if (eleccion >= 1 && eleccion <= maxMisiones + 1) {
+                    break;
+                }
+                System.out.println("Opción inválida");
+            }
 
             // Si elige "Volver"
             if (eleccion == maxMisiones + 1) {

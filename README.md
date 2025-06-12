@@ -85,6 +85,7 @@ Este proyecto es una simulación por consola inspirada en el personaje *Snake*, 
 - 🚀 **Bloqueo de acceso al hangar**: Hasta recolectar el objeto correspondiente, Snake no puede finalizar la misión, y la Puerta permanece visible.  
 - 🚀 **Detección de guardias**: Proximidad inmediata al pasar por celdas adyacentes, simulando la “área de visión” del guardia.  
 - 🚀 **Secuencia de misiones**: El menú dinámico muestra sólo las misiones desbloqueadas y la opción de volver cuando corresponda.
+- 🚀 **Configuración de dificultad**: número de guardias (Facil: 2, Media: 3, Dificil: 4).
 
 ---
 
@@ -94,7 +95,7 @@ Este proyecto es una simulación por consola inspirada en el personaje *Snake*, 
 - 🎉 Mejor interfaz para mejorar la experiencia de usuario.
 - 🎉 Mapa toróidal: al moverse fuera de un borde, reaparecer en el lado opuesto.
 - 🎉 Posición inicial aleatoria de Snake para mayor rejugabilidad.
-- 🎉 Configuración de dificultad: número de guardias personalizado, visión, tamaño de mapa.
+- 🎉 Configuracion del tamaño de mapa, para hacerlo mas personalizado.
 - 🎉 Mejora en los guardias: movimientos, detecciones y/o persecuciones.
 
 ---

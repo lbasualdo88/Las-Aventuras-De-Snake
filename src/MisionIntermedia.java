@@ -71,6 +71,7 @@ public class MisionIntermedia extends Mision {
                         System.out.println("--------------------------------------");
                         System.out.println();
                         misionCompletada = true;
+                        
                         mapa.mostrar();
                         break;
                     }
@@ -159,8 +160,10 @@ public class MisionIntermedia extends Mision {
                         System.out.println("--------------------------------------");
                         System.out.println();
                         misionCompletada = true;
+                        
                         break;
                     }
+                    
                 }
 
                 mapa.mostrar();

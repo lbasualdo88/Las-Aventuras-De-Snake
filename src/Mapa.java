@@ -49,7 +49,7 @@ public class Mapa {
     // Ubica enemigos (guardias) aleatoriamente, evitando zonas sensibles
     public void ubicarEnemigos(int cantidad, Posicion snakePosicion, Posicion llavePosicion, Posicion hangarPosicion) {
         Random random = new Random();
-        int colocados = 0;
+        int colocados = 4;
 
         while (colocados < cantidad) {
             int x = random.nextInt(matriz[0].length);

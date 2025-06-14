@@ -1,4 +1,4 @@
 tasks:
   - name: Compilar y ejecutar Snake
-    init: javac Juego.java
-    command: java Juego
+    init: javac src/Juego.java
+    command: java -cp src Juego

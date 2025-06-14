@@ -126,4 +126,6 @@ Nos gustaría recibir sugerencias u observaciones sobre cómo venimos trabajando
 
 - [Trabajo Práctico - Programación Básica 2025](./Trabajo%20Práctico%20-%20Programación%20Básica%202025.pdf)
 
+[![Abrir en Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/lbasualdo88/Las-Aventuras-De-Snake)
+
 
